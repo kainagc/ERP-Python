@@ -1,0 +1,36 @@
+.dashbordlogo{
+    
+    height: 250px;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo{
+    height: 200px;
+    width: auto;
+}
+
+.dashbord{
+    height: 26rem;
+    width: auto;
+    display: flex;
+    justify-content: space-between;
+    padding: 0rem 13rem;
+    
+}
+
+.painel1{
+    height: 85%;
+    width: 40%;
+    border: 2px solid #C05B35;
+    border-radius: 30px;
+}
+
+.painel2{
+    height: 85%;
+    width: 40%;
+    border: 2px solid #C05B35;
+    border-radius: 30px;
+}

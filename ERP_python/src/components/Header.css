@@ -1,0 +1,27 @@
+header{
+    display: flex;
+    justify-content: space-between;
+    padding: 0rem 5rem;
+    height: 4rem;
+    background-color: #C05B35;
+    align-items: center;
+    color: white;
+    font-size: 20px;
+}
+
+/* Seleciona todos os botões dentro do header */
+header button, .header-principal button {
+  background: transparent;  /* Remove o fundo branco */
+  border: none;             /* Remove a borda padrão do botão */
+  outline: none;            /* Remove o contorno de seleção */
+  color: white;             /* Deixa o texto branco para contrastar com o fundo */
+  font-size: 1rem;          /* Tamanho da fonte */
+  cursor: pointer;          /* Transforma o ponteiro do mouse na mãozinha */
+  padding: 0.5rem 1rem;      /* Área de clique agradável */
+  font-family: inherit;     /* Herda a mesma fonte do resto do sistema */
+}
+
+/* Efeito ao passar o mouse por cima (Hover) */
+header button:hover, .header-principal button:hover {
+  opacity: 0.7;             /* Dá um leve brilho/transparência indicando que é clicável */
+}
