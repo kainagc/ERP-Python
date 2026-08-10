@@ -1,4 +1,4 @@
-.princ_finan{
+.princ_estoq{
     width: auto;
     height: 600px;
     display: flex;
@@ -7,7 +7,7 @@
     padding: 0rem 13rem;
 }
 
-.bot_ent{
+.bot_prod{
     background: transparent;  /* Remove o fundo branco */
   border: none;             /* Remove a borda padrão do botão */
   outline: none;            /* Remove o contorno de seleção */
@@ -18,7 +18,7 @@
   font-family: inherit; 
 }
 
-.bot_sai{
+.bot_pedid{
     background: transparent;  /* Remove o fundo branco */
   border: none;             /* Remove a borda padrão do botão */
   outline: none;            /* Remove o contorno de seleção */
@@ -29,7 +29,7 @@
   font-family: inherit; 
 }
 
-.bot_not{
+.bot_repo{
     background: transparent;  /* Remove o fundo branco */
   border: none;             /* Remove a borda padrão do botão */
   outline: none;            /* Remove o contorno de seleção */
@@ -40,7 +40,7 @@
   font-family: inherit; 
 }
 
-.bot-fin_ent{
+.bot-estq_prod{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -50,7 +50,7 @@
     border-radius: 10px;
 }
 
-.bot_fin_sai{
+.bot_estq_pedid{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -60,7 +60,7 @@
     border-radius: 10px;
 }
 
-.bot_fin_not{
+.bot_estq_repo{
     display: flex;
     justify-content: center;
     align-items: center;
