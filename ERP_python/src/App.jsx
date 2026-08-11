@@ -7,9 +7,6 @@ import { Projetos } from './pages/Projetos.jsx'
 import { Financeiro } from './pages/Financeiro.jsx'
 import { Orcamento } from './pages/Orcamento.jsx'
 import { Estoque } from './pages/Estoque.jsx'
-import { FinanceiroEntrada } from './pages/FinanceiroEntrada.jsx'
-import { FinanceiroSaida } from './pages/FinanceiroSaida.jsx'
-import { FinanceiroNotas } from './pages/FinanceiroNotas.jsx'
 import './App.css'
 
 export function App() {
@@ -25,11 +22,7 @@ export function App() {
       {paginaAtual === 'home' && <Home />}
       {paginaAtual === 'clientes' && <Clientes />}
       {paginaAtual === 'projetos' && <Projetos />}
-      {paginaAtual === 'financeiro' && <Financeiro aoNavegar={setPaginaAtual} />}
-          {paginaAtual === 'financeiro-entrada' && <FinanceiroEntrada />}
-          {paginaAtual === 'financeiro-saida' && <FinanceiroSaida />}
-          {paginaAtual === 'financeiro-notas' && <FinanceiroNotas />}
-
+      {paginaAtual === 'financeiro' && <Financeiro />}
       {paginaAtual === 'orcamento' && <Orcamento/>}
       {paginaAtual === 'estoque' && <Estoque/>}
     </div>

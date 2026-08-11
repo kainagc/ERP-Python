@@ -1,28 +1,32 @@
 // src/pages/Financeiro.jsx
 import './Financeiro.css'
-
-export function Financeiro({ aoNavegar }) {
+export function Financeiro() {
   return (
-    <div>
-      <div className="princ_finan">
-        <div className="bot-fin_ent">
-          <button className="bot_ent" onClick={() => aoNavegar('financeiro-entrada')}>
-            Entrada
-          </button>
+    <div className="princ_finan">
+        <div className="lat_finan">
+            <div className="div_bot_novo">
+                <button className="bot_novo_finan">Novo Orçamento</button>
+            </div>
+            <br>
+            </br>
+            <div className="div_bot_filtro">
+                <button className="bot_filtro_finan">Filtro</button>
+            </div>
         </div>
+        <div className="inf_finan">
+                <div className="finan">
 
-        <div className="bot_fin_sai">
-          <button className="bot_sai" onClick={() => aoNavegar('financeiro-saida')}>
-            Saída
-          </button>
+                </div>
         </div>
+        <div className="bal_finan">
+                <div className="bal">
+                    <p htmlFor="" className="label_bal">Balanço</p>
+                </div>
+                <div className="div_bal">
+                    
+                </div>
 
-        <div className="bot_fin_not">
-          <button className="bot_not" onClick={() => aoNavegar('financeiro-notas')}>
-            Notas
-          </button>
         </div>
-      </div>
     </div>    
   )
 }
