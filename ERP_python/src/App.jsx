@@ -7,6 +7,8 @@ import { Projetos } from './pages/Projetos.jsx'
 import { Financeiro } from './pages/Financeiro.jsx'
 import { Orcamento } from './pages/Orcamento.jsx'
 import { Estoque } from './pages/Estoque.jsx'
+import { Novo_Cliente } from './pages/Novo_Cliente.jsx'
+import { Novo_Projeto } from './pages/Novo_Projeto.jsx'
 import './App.css'
 
 export function App() {
@@ -20,11 +22,13 @@ export function App() {
 
       {/* Condicionais para trocar de tela: */}
       {paginaAtual === 'home' && <Home />}
-      {paginaAtual === 'clientes' && <Clientes />}
-      {paginaAtual === 'projetos' && <Projetos />}
+      {paginaAtual === 'clientes' && <Clientes aoNavegar={setPaginaAtual} />}
+      {paginaAtual === 'projetos' && <Projetos aoNavegar={setPaginaAtual}/>}
       {paginaAtual === 'financeiro' && <Financeiro />}
       {paginaAtual === 'orcamento' && <Orcamento/>}
       {paginaAtual === 'estoque' && <Estoque/>}
+      {paginaAtual === 'novo-cliente' && <Novo_Cliente aoNavegar={setPaginaAtual}/>}
+      {paginaAtual === 'novo-projeto' && <Novo_Projeto aoNavegar={setPaginaAtual}/>}
     </div>
   )
 }

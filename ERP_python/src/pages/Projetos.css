@@ -2,6 +2,8 @@
     height: 100px;
     width: 100%;
     padding: 2.5rem 2.5rem;
+    display: flex;
+    gap: 4.2rem;
 }
 
 .novo_proj{
@@ -43,4 +45,24 @@ button:hover {
     border: solid 2px #C05B35;
     width: 75%;
     height: 60px;
+}
+
+.div_pesq_proj{
+    height: 4rem;
+    width: 30rem;
+    display: flex;
+    
+    align-items: center;
+    border-radius: 10px;
+    border: solid 2px #C05B35;
+}
+
+.pesq_proj{
+    background: transparent;  /* Remove o fundo branco */
+  border: none;             /* Remove a borda padrão do botão */
+  outline: none;            /* Remove o contorno de seleção */
+  font-size: 1.5rem;          /* Tamanho da fonte */  
+  cursor: pointer;          /* Transforma o ponteiro do mouse na mãozinha */
+  padding: 0.5rem 1rem;      /* Área de clique agradável */
+  font-family: inherit;
 }

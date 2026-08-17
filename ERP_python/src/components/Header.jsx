@@ -9,8 +9,8 @@ export function Header({ aoNavegar }) {
 
       <button onClick={() => aoNavegar('clientes')}>Clientes</button>
       <button onClick={() => aoNavegar('projetos')}>Projetos</button>
-      <button onClick={() => aoNavegar('financeiro')}>Financeiro</button>
       <button onClick={() => aoNavegar('orcamento')}>Orçamento</button>
+      <button onClick={() => aoNavegar('financeiro')}>Financeiro</button>
       <button onClick={() => aoNavegar('estoque')}>Estoque</button>
     </header>
   )

@@ -1,22 +1,27 @@
-.sup_cli{
-    height: 100px;
+.princ_novo_proj{
+    display: flex;
+    flex-direction: column;
+}
+
+.div_sup{
     width: 100%;
+    height: 10%;
+    display: flex;
     padding: 2.5rem 2.5rem;
-    display: flex;
-    gap: 4.2rem;
+
 }
 
-.novo_cli{
-    height: 4rem;
-    width: 14rem;
+.div_campos{
+    width: 100%;
+    height: 70rem;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    border-radius: 10px;
-    border: solid 2px #C05B35;
+    gap: 1.5rem;
+
 }
 
-.bot_novo_cli{
+.bot_voltar{
     background: transparent;  /* Remove o fundo branco */
   border: none;             /* Remove a borda padrão do botão */
   outline: none;            /* Remove o contorno de seleção */
@@ -27,26 +32,23 @@
   font-family: inherit; 
 }
 
-button:hover {
-  opacity: 0.7;             /* Dá um leve brilho/transparência indicando que é clicável */
-}
-
-.inf_cli{
-    height: 30rem;
-    width: auto;
+.div_bot_volt{
+    height: 4rem;
+    width: 14rem;
     display: flex;
     justify-content: center;
-    padding: 1rem;
-}
-
-.cli{
+    align-items: center;
     border-radius: 10px;
     border: solid 2px #C05B35;
-    width: 75%;
-    height: 60px;
 }
 
-.div_pesq_cli{
+.ambiente,.cliente{
+    color: #C05B35;
+    font-size: 1.5rem;
+
+}
+
+.div_camp_ambiente,.div_camp_cliente{
     height: 4rem;
     width: 30rem;
     display: flex;
@@ -56,11 +58,32 @@ button:hover {
     border: solid 2px #C05B35;
 }
 
-.pesq_cli{
+.camp_ambiente,.camp_cliente{
     background: transparent;  /* Remove o fundo branco */
   border: none;             /* Remove a borda padrão do botão */
   outline: none;            /* Remove o contorno de seleção */
   font-size: 1.5rem;          /* Tamanho da fonte */  
+  cursor: pointer;          /* Transforma o ponteiro do mouse na mãozinha */
+  padding: 0.5rem 1rem;      /* Área de clique agradável */
+  font-family: inherit; 
+}
+
+.div_bot_salvar{
+      height: 4rem;
+    width: 14rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    border: solid 2px #C05B35;
+}
+
+.bot_salvar{
+    background: transparent;  /* Remove o fundo branco */
+  border: none;             /* Remove a borda padrão do botão */
+  outline: none;            /* Remove o contorno de seleção */
+  color: #C05B35;             /* Deixa o texto branco para contrastar com o fundo */
+  font-size: 1.5rem;          /* Tamanho da fonte */
   cursor: pointer;          /* Transforma o ponteiro do mouse na mãozinha */
   padding: 0.5rem 1rem;      /* Área de clique agradável */
   font-family: inherit; 
