@@ -5,4 +5,4 @@ Foco em usabilidade e acessibilidade, pois os usuários que utilizaram, todos fa
 
 # Ferramentas
 
-React no desenvolvimento do front, o beckend vai ser desenvolvido em Python, banco de dados vai ser utilizado o PostgreSQL 
+React / Vite no desenvolvimento do front, o beckend vai ser desenvolvido em Python, banco de dados vai ser utilizado o PostgreSQL 
