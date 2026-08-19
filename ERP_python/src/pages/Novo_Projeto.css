@@ -1,6 +1,10 @@
 .princ_novo_proj{
     display: flex;
     flex-direction: column;
+
+    justify-content: center;
+    
+    
 }
 
 .div_sup{
@@ -13,12 +17,11 @@
 
 .div_campos{
     width: 100%;
-    height: 70rem;
+    height: 27rem;
     display: flex;
-    flex-direction: column;
     align-items: center;
     gap: 1.5rem;
-
+    flex-direction: column;
 }
 
 .bot_voltar{
@@ -42,13 +45,13 @@
     border: solid 2px #C05B35;
 }
 
-.ambiente,.cliente{
+.ambiente,.cliente,.obs,.agenda,.material,.img_ambiente,.img_3d{
     color: #C05B35;
     font-size: 1.5rem;
 
 }
 
-.div_camp_ambiente,.div_camp_cliente{
+.div_camp_ambiente,.div_camp_cliente,.div_camp_obs{
     height: 4rem;
     width: 30rem;
     display: flex;
@@ -58,7 +61,7 @@
     border: solid 2px #C05B35;
 }
 
-.camp_ambiente,.camp_cliente{
+.camp_ambiente,.camp_cliente,.camp_obs{
     background: transparent;  /* Remove o fundo branco */
   border: none;             /* Remove a borda padrão do botão */
   outline: none;            /* Remove o contorno de seleção */
@@ -68,7 +71,7 @@
   font-family: inherit; 
 }
 
-.div_bot_salvar{
+.div_bot_salvar,.div_bot_versao,.div_bot_adc,.div_bot_rem{
       height: 4rem;
     width: 14rem;
     display: flex;
@@ -78,7 +81,7 @@
     border: solid 2px #C05B35;
 }
 
-.bot_salvar{
+.bot_salvar,.bot_versao,.bot_adc,.bot_rem{
     background: transparent;  /* Remove o fundo branco */
   border: none;             /* Remove a borda padrão do botão */
   outline: none;            /* Remove o contorno de seleção */
@@ -87,4 +90,83 @@
   cursor: pointer;          /* Transforma o ponteiro do mouse na mãozinha */
   padding: 0.5rem 1rem;      /* Área de clique agradável */
   font-family: inherit; 
+}
+
+.sup_div_versao{
+    width: 100%;
+    height: 100%;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+    gap: 1.5rem;
+}
+
+.sup_div_agenda{
+    width: 100%;
+    height: 30rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.div_agenda{
+    width: 80%;
+    height: 80%;
+    display: flex;
+    border: solid 2px #C05B35;
+    border-radius: 10px; 
+}
+
+.div_alt_versao{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    width: 80%;
+    height: 80%;
+    border: solid 2px #C05B35;
+    border-radius: 10px; 
+    padding: 2.5rem;
+}
+
+.div_materiais{
+    width: 90%;
+    height: 20rem;
+    border: solid 2px #C05B35;
+    border-radius: 10px; 
+    ;
+}
+
+.op_materiais,.op_img_ambiente,.op_img_3d{
+    width: 90%;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0rem 15rem;
+    
+}
+
+.div_img_ambiente{
+     width: 90%;
+    height: 20rem;
+    border: solid 2px #C05B35;
+    border-radius: 10px;
+}
+
+.div_img_3d{
+    width: 90%;
+    height: 20rem;
+    border: solid 2px #C05B35;
+    border-radius: 10px;
+}
+
+.div_sup_salvar{
+    width: 100%;
+    height: 7rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
 }

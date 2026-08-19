@@ -3,23 +3,25 @@
 }
 
 .lat_finan {
-    width:12%;
+    width:17%;
     height: 650px;
     display: flex;
     flex-direction: column;
     padding: 2.5rem 2.5rem;
     gap: 1.5rem;
+    
 }
 
 .inf_finan {
-    width: 68%;
+    width: 63%;
     height: 650px;
     display: flex;
-   
     padding: 2.5rem;
     display: flex;
     flex-direction: column;
-    gap: 2rem
+    gap: 1.5rem;
+    
+
 }
 
 .bal_finan{
@@ -54,7 +56,7 @@
 
 .div_bot_novo{
     height: 4rem;
-    width: 14rem;
+    width: 10%;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -3,7 +3,7 @@
 }
 
 .lat_estoq {
-    width:12%;
+    width:17%;
     height: 650px;
     display: flex;
     flex-direction: column;
@@ -12,14 +12,14 @@
 }
 
 .inf_estoq {
-    width: 68%;
+    width: 63%;
     height: 650px;
     display: flex;
    
     padding: 2.5rem;
     display: flex;
     flex-direction: column;
-    gap: 2rem
+    gap: 1.5rem
 }
 
 .inf_estoq_prod{
