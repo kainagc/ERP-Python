@@ -1,17 +1,28 @@
-import { useState } from 'react'
-import './Novo_Cliente.css'
+import { useState, useEffect } from 'react'
+import './Novo_Cliente.css' // reaproveita o mesmo CSS do formulário de novo cliente
 
-export function Novo_Cliente({ aoNavegar }) {
-  const [form, setForm] = useState({
-    nome: '',
-    endereco: '',
-    bairro: '',
-    cidade: '',
-    estado: '',
-    celular: '',
-    cpf_cnpj: '',
-    inscricao_estadual: ''
-  })
+export function Editar_Cliente({ aoNavegar, clienteId }) {
+  const [form, setForm] = useState(null)
+  const [carregando, setCarregando] = useState(true)
+  const [erro, setErro] = useState(null)
+
+  useEffect(() => {
+    async function buscarCliente() {
+      try {
+        const resposta = await fetch(`http://127.0.0.1:8000/clientes/${clienteId}`)
+        if (!resposta.ok) throw new Error('Cliente não encontrado')
+        const dados = await resposta.json()
+        setForm({ ...dados, inscricao_estadual: dados.inscricao_estadual || '' })
+      } catch (err) {
+        console.error(err)
+        setErro('Não foi possível carregar os dados do cliente.')
+      } finally {
+        setCarregando(false)
+      }
+    }
+
+    if (clienteId) buscarCliente()
+  }, [clienteId])
 
   function handleChange(e) {
     const { name, value } = e.target
@@ -20,8 +31,8 @@ export function Novo_Cliente({ aoNavegar }) {
 
   async function handleSalvar() {
     try {
-      const resposta = await fetch('http://127.0.0.1:8000/clientes/', {
-        method: 'POST',
+      const resposta = await fetch(`http://127.0.0.1:8000/clientes/${clienteId}`, {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...form,
@@ -30,18 +41,22 @@ export function Novo_Cliente({ aoNavegar }) {
       })
 
       if (!resposta.ok) {
-        const erro = await resposta.json()
-        alert('Erro ao salvar cliente: ' + JSON.stringify(erro))
+        const dadosErro = await resposta.json()
+        alert(dadosErro.detail || 'Erro ao salvar alterações.')
         return
       }
 
-      alert('Cliente salvo com sucesso!')
+      alert('Cliente atualizado com sucesso!')
       aoNavegar('clientes')
     } catch (err) {
       alert('Não foi possível conectar ao servidor. Verifique se o backend está rodando.')
       console.error(err)
     }
   }
+
+  if (carregando) return <p>Carregando...</p>
+  if (erro) return <p>{erro}</p>
+  if (!form) return null
 
   return (
     <div>
@@ -117,7 +132,7 @@ export function Novo_Cliente({ aoNavegar }) {
           </div>
 
           <div className='div_bot_salvar'>
-            <button className='bot_salvar' onClick={handleSalvar}>Salvar</button>
+            <button className='bot_salvar' onClick={handleSalvar}>Salvar Alterações</button>
           </div>
         </div>
       </div>
@@ -125,4 +140,4 @@ export function Novo_Cliente({ aoNavegar }) {
   )
 }
 
-export default Novo_Cliente
+export default Editar_Cliente

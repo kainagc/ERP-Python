@@ -69,6 +69,8 @@
   cursor: pointer;          /* Transforma o ponteiro do mouse na mãozinha */
   padding: 0.5rem 1rem;      /* Área de clique agradável */
   font-family: inherit; 
+  width: 100%;
+  color: #333;
 }
 
 .div_bot_salvar,.div_bot_versao,.div_bot_adc,.div_bot_rem{
@@ -114,8 +116,13 @@
     width: 80%;
     height: 80%;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 2rem;
     border: solid 2px #C05B35;
-    border-radius: 10px; 
+    border-radius: 10px;
 }
 
 .div_alt_versao{
@@ -169,4 +176,232 @@
     justify-content: center;
     align-items: center;
     
+}
+
+.lista_sugestoes_cliente{
+    position: absolute;
+    top: calc(100% + 0.3rem);
+    left: 0;
+    width: 100%;
+    max-height: 12rem;
+    overflow-y: auto;
+    background: white;
+    border: solid 2px #C05B35;
+    border-radius: 10px;
+    z-index: 10;
+}
+
+.sugestao_cliente{
+    padding: 0.7rem 1rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.sugestao_cliente:hover{
+    background: #f5e4dc;
+}
+
+.sugestao_cliente.sem_resultado{
+    cursor: default;
+    color: #999;
+}
+
+.sugestao_cliente.sem_resultado:hover{
+    background: transparent;
+}
+
+/* Agenda: lista de eventos */
+.texto_sem_eventos{
+    color: #999;
+    font-size: 1.1rem;
+}
+
+.lista_eventos{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    max-height: 20rem;
+    overflow-y: auto;
+}
+
+.item_evento{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: solid 2px #C05B35;
+    border-radius: 10px;
+    padding: 0.8rem 1.2rem;
+    font-size: 1.1rem;
+    color: #C05B35;
+}
+
+.item_evento_data{
+    font-weight: bold;
+}
+
+.item_evento_tipo{
+    flex: 1;
+    text-align: center;
+}
+
+.bot_remover_evento{
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #C05B35;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.bot_add_evento{
+    background: transparent;
+    border: dashed 2px #C05B35;
+    border-radius: 10px;
+    outline: none;
+    color: #C05B35;
+    font-size: 1.3rem;
+    cursor: pointer;
+    padding: 0.8rem 1.5rem;
+    font-family: inherit;
+}
+
+/* Modal de novo evento */
+.overlay_modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.modal_evento{
+    background: white;
+    border-radius: 15px;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    min-width: 350px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modal_evento_titulo{
+    color: #C05B35;
+    font-size: 1.6rem;
+    margin: 0;
+}
+
+.campo_data_visita,.campo_tipo_visita{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.campo_data_visita label,.campo_tipo_visita label{
+    color: #C05B35;
+    font-size: 1.3rem;
+}
+
+.input_data_visita{
+    background: transparent;
+    border: solid 2px #C05B35;
+    border-radius: 10px;
+    outline: none;
+    font-size: 1.3rem;
+    padding: 0.7rem 1rem;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.texto_dia_semana{
+    color: #C05B35;
+    font-size: 1.1rem;
+    font-style: italic;
+}
+
+.select_tipo_visita{
+    background: transparent;
+    border: solid 2px #C05B35;
+    border-radius: 10px;
+    outline: none;
+    font-size: 1.3rem;
+    padding: 0.7rem 1rem;
+    font-family: inherit;
+    cursor: pointer;
+    width: 18rem;
+    color: #333;
+}
+
+.form_evento_botoes{
+    display: flex;
+    gap: 1rem;
+}
+
+.bot_confirmar_evento,.bot_cancelar_evento{
+    background: transparent;
+    border: solid 2px #C05B35;
+    border-radius: 10px;
+    outline: none;
+    color: #C05B35;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.6rem 1.5rem;
+    font-family: inherit;
+}
+
+.modal_versao{
+    background: white;
+    border-radius: 15px;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    min-width: 350px;
+    max-width: 90vw;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.lista_versoes{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    max-height: 15rem;
+    overflow-y: auto;
+}
+
+.item_versao{
+    background: transparent;
+    border: solid 2px #C05B35;
+    border-radius: 10px;
+    outline: none;
+    color: #C05B35;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.7rem 1.2rem;
+    font-family: inherit;
+    width: 100%;
+    text-align: center;
+}
+
+.item_versao:hover{
+    background: #f5e4dc;
+}
+
+.item_versao_ativa{
+    background: #C05B35;
+    color: white;
+}
+
+.item_versao_ativa:hover{
+    background: #a54a2a;
 }

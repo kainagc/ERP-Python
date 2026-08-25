@@ -42,13 +42,13 @@
     border: solid 2px #C05B35;
 }
 
-.nome,.end,.cel,.cpf,.insc{
+.nome,.end,.cel,.cpf,.insc,.bairro,.cidade,.estado{
     color: #C05B35;
     font-size: 1.5rem;
 
 }
 
-.div_camp_nome,.div_camp_end,.div_camp_cel,.div_camp_cpf,.div_camp_insc{
+.div_camp_nome,.div_camp_end,.div_camp_cel,.div_camp_cpf,.div_camp_insc,.div_camp_bairro,.div_camp_cidade,.div_camp_estado{
     height: 4rem;
     width: 30rem;
     display: flex;
@@ -58,7 +58,7 @@
     border: solid 2px #C05B35;
 }
 
-.camp_nome,.camp_end,.camp_cel,.camp_cpf,.camp_insc{
+.camp_nome,.camp_end,.camp_cel,.camp_cpf,.camp_insc,.camp_bairro,.camp_cidade,.camp_estado{
     background: transparent;  /* Remove o fundo branco */
   border: none;             /* Remove a borda padrão do botão */
   outline: none;            /* Remove o contorno de seleção */
