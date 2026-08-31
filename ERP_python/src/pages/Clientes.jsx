@@ -1,8 +1,10 @@
 // src/pages/Clientes.jsx
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './Clientes.css'
 
-export function Clientes({ aoNavegar }) {
+export function Clientes() {
+  const navigate = useNavigate()
   const [clientes, setClientes] = useState([])
   const [carregando, setCarregando] = useState(true)
   const [erro, setErro] = useState(null)
@@ -34,7 +36,7 @@ export function Clientes({ aoNavegar }) {
     <div>
       <div className="sup_cli">
         <div className="novo_cli">
-          <button className="bot_novo_cli" onClick={() => aoNavegar('novo-cliente')}>Novo Cliente</button>
+          <button className="bot_novo_cli" onClick={() => navigate('/clientes/novo')}>Novo Cliente</button>
         </div>
         <div className="div_pesq_cli">
           <input
@@ -63,7 +65,7 @@ export function Clientes({ aoNavegar }) {
             <div
               className="cli"
               key={cliente.id}
-              onClick={() => aoNavegar('editar-cliente', cliente.id)}
+              onClick={() => navigate(`/clientes/${cliente.id}`)}
               style={{ cursor: 'pointer' }}
             >
               <p>{cliente.nome}</p>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './Novo_Projeto.css'
 
 const AMBIENTES = [
@@ -11,7 +12,9 @@ const TIPOS_VISITA = [
   '1ª Visita', 'Confirmar Medidas', 'Entrega', 'Dúvidas', 'Manutenção'
 ]
 
-export function Novo_Projeto({ aoNavegar }) {
+export function Novo_Projeto() {
+  const navigate = useNavigate()
+
   const [ambiente, setAmbiente] = useState('')
   const [observacoes, setObservacoes] = useState('')
 
@@ -134,7 +137,7 @@ export function Novo_Projeto({ aoNavegar }) {
       <div className="princ_novo_proj">
         <div className='div_sup'>
           <div className='div_bot_volt'>
-            <button className='bot_voltar' onClick={() => aoNavegar('projetos')}>Voltar</button>
+            <button className='bot_voltar' onClick={() => navigate('/projetos')}>Voltar</button>
           </div>
         </div>
         <div>

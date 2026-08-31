@@ -1,5 +1,5 @@
 // src/App.jsx
-import { useState } from 'react'
+import { Routes, Route } from 'react-router-dom'
 import { Header } from './components/Header.jsx'
 import { Home } from './pages/Home.jsx'
 import { Clientes } from './pages/Clientes.jsx'
@@ -13,27 +13,21 @@ import { Novo_Projeto } from './pages/Novo_Projeto.jsx'
 import './App.css'
 
 export function App() {
-  const [paginaAtual, setPaginaAtual] = useState('home')
-  const [clienteSelecionadoId, setClienteSelecionadoId] = useState(null)
-
-  function navegar(pagina, id = null) {
-    setClienteSelecionadoId(id)
-    setPaginaAtual(pagina)
-  }
-
   return (
     <div style={{ padding: '0rem', fontFamily: 'sans-serif' }}>
-      <Header aoNavegar={navegar} />
+      <Header />
 
-      {paginaAtual === 'home' && <Home />}
-      {paginaAtual === 'clientes' && <Clientes aoNavegar={navegar} />}
-      {paginaAtual === 'projetos' && <Projetos aoNavegar={navegar}/>}
-      {paginaAtual === 'financeiro' && <Financeiro />}
-      {paginaAtual === 'orcamento' && <Orcamento/>}
-      {paginaAtual === 'estoque' && <Estoque/>}
-      {paginaAtual === 'novo-cliente' && <Novo_Cliente aoNavegar={navegar}/>}
-      {paginaAtual === 'editar-cliente' && <Editar_Cliente aoNavegar={navegar} clienteId={clienteSelecionadoId} />}
-      {paginaAtual === 'novo-projeto' && <Novo_Projeto aoNavegar={navegar}/>}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/clientes" element={<Clientes />} />
+        <Route path="/clientes/novo" element={<Novo_Cliente />} />
+        <Route path="/clientes/:id" element={<Editar_Cliente />} />
+        <Route path="/projetos" element={<Projetos />} />
+        <Route path="/projetos/novo" element={<Novo_Projeto />} />
+        <Route path="/financeiro" element={<Financeiro />} />
+        <Route path="/orcamento" element={<Orcamento />} />
+        <Route path="/estoque" element={<Estoque />} />
+      </Routes>
     </div>
   )
 }

@@ -1,17 +1,16 @@
 // src/components/Header.jsx
+import { Link } from 'react-router-dom'
 import './Header.css'
 
-export function Header({ aoNavegar }) {
+export function Header() {
   return (
     <header className="header-principal">
-      {/* Botão para voltar para a tela inicial se clicar no título/logo */}
-      <button onClick={() => aoNavegar('home')}>Home</button> 
-
-      <button onClick={() => aoNavegar('clientes')}>Clientes</button>
-      <button onClick={() => aoNavegar('projetos')}>Projetos</button>
-      <button onClick={() => aoNavegar('orcamento')}>Orçamento</button>
-      <button onClick={() => aoNavegar('financeiro')}>Financeiro</button>
-      <button onClick={() => aoNavegar('estoque')}>Estoque</button>
+      <Link to="/">Home</Link>
+      <Link to="/clientes">Clientes</Link>
+      <Link to="/projetos">Projetos</Link>
+      <Link to="/orcamento">Orçamento</Link>
+      <Link to="/financeiro">Financeiro</Link>
+      <Link to="/estoque">Estoque</Link>
     </header>
   )
 }

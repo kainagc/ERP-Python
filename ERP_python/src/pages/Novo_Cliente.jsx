@@ -1,7 +1,9 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './Novo_Cliente.css'
 
-export function Novo_Cliente({ aoNavegar }) {
+export function Novo_Cliente() {
+  const navigate = useNavigate()
   const [form, setForm] = useState({
     nome: '',
     endereco: '',
@@ -31,12 +33,12 @@ export function Novo_Cliente({ aoNavegar }) {
 
       if (!resposta.ok) {
         const erro = await resposta.json()
-        alert('Erro ao salvar cliente: ' + JSON.stringify(erro))
+        alert(erro.detail || 'Erro ao salvar cliente.')
         return
       }
 
       alert('Cliente salvo com sucesso!')
-      aoNavegar('clientes')
+      navigate('/clientes')
     } catch (err) {
       alert('Não foi possível conectar ao servidor. Verifique se o backend está rodando.')
       console.error(err)
@@ -48,7 +50,7 @@ export function Novo_Cliente({ aoNavegar }) {
       <div className="princ_novo_cli">
         <div className='div_sup'>
           <div className='div_bot_volt'>
-            <button className='bot_voltar' onClick={() => aoNavegar('clientes')}>Voltar</button>
+            <button className='bot_voltar' onClick={() => navigate('/clientes')}>Voltar</button>
           </div>
         </div>
         <div className='div_campos'>

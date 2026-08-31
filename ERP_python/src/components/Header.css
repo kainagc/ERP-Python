@@ -25,3 +25,19 @@ header button, .header-principal button {
 header button:hover, .header-principal button:hover {
   opacity: 0.7;             /* Dá um leve brilho/transparência indicando que é clicável */
 }
+
+header a, .header-principal a {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  font-family: inherit;
+  text-decoration: none;
+}
+
+header a:hover, .header-principal a:hover {
+  opacity: 0.7;
+}

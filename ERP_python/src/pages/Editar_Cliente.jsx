@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react'
-import './Novo_Cliente.css' // reaproveita o mesmo CSS do formulário de novo cliente
+import { useNavigate, useParams } from 'react-router-dom'
+import './Novo_Cliente.css'
 
-export function Editar_Cliente({ aoNavegar, clienteId }) {
+export function Editar_Cliente() {
+  const navigate = useNavigate()
+  const { id } = useParams()
   const [form, setForm] = useState(null)
   const [carregando, setCarregando] = useState(true)
   const [erro, setErro] = useState(null)
@@ -9,7 +12,7 @@ export function Editar_Cliente({ aoNavegar, clienteId }) {
   useEffect(() => {
     async function buscarCliente() {
       try {
-        const resposta = await fetch(`http://127.0.0.1:8000/clientes/${clienteId}`)
+        const resposta = await fetch(`http://127.0.0.1:8000/clientes/${id}`)
         if (!resposta.ok) throw new Error('Cliente não encontrado')
         const dados = await resposta.json()
         setForm({ ...dados, inscricao_estadual: dados.inscricao_estadual || '' })
@@ -21,8 +24,8 @@ export function Editar_Cliente({ aoNavegar, clienteId }) {
       }
     }
 
-    if (clienteId) buscarCliente()
-  }, [clienteId])
+    if (id) buscarCliente()
+  }, [id])
 
   function handleChange(e) {
     const { name, value } = e.target
@@ -31,7 +34,7 @@ export function Editar_Cliente({ aoNavegar, clienteId }) {
 
   async function handleSalvar() {
     try {
-      const resposta = await fetch(`http://127.0.0.1:8000/clientes/${clienteId}`, {
+      const resposta = await fetch(`http://127.0.0.1:8000/clientes/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -47,7 +50,7 @@ export function Editar_Cliente({ aoNavegar, clienteId }) {
       }
 
       alert('Cliente atualizado com sucesso!')
-      aoNavegar('clientes')
+      navigate('/clientes')
     } catch (err) {
       alert('Não foi possível conectar ao servidor. Verifique se o backend está rodando.')
       console.error(err)
@@ -63,7 +66,7 @@ export function Editar_Cliente({ aoNavegar, clienteId }) {
       <div className="princ_novo_cli">
         <div className='div_sup'>
           <div className='div_bot_volt'>
-            <button className='bot_voltar' onClick={() => aoNavegar('clientes')}>Voltar</button>
+            <button className='bot_voltar' onClick={() => navigate('/clientes')}>Voltar</button>
           </div>
         </div>
         <div className='div_campos'>
