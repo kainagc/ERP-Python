@@ -2,13 +2,18 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  width: 100%;
 }
 
+/* Barra superior com o mesmo espaçamento e gap de Clientes */
 .div_sup {
+  height: 100px;
   width: 100%;
+  padding: 0rem 2.5rem;
   display: flex;
-  padding: 2.5rem 2.5rem;
-  gap: 2rem;
+  gap: 4.2rem;
+  /* Substitui os <br /> de Clientes */
+  box-sizing: border-box;
 }
 
 .div_bot_novo {
@@ -48,33 +53,39 @@
   border: none;
   outline: none;
   font-size: 1.5rem;
-  cursor: text;
+  cursor: pointer;
   padding: 0.5rem 1rem;
   font-family: inherit;
   width: 100%;
   color: #333;
 }
 
+/* Centraliza a lista na tela com padding e gap idênticos a Clientes */
 .div_lista_proj {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  padding: 1rem;
+  gap: 1rem;
+  box-sizing: border-box;
 }
 
+/* Caixa do projeto com os mesmos 75% e 60px de altura de Clientes */
 .div_proj {
-  height: 4rem;
-  width: 95%;
-  display: flex;
-  align-items: center;
   border-radius: 10px;
   border: solid 2px #C05B35;
+  width: 75%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  font-size: 1.3rem;
   cursor: pointer;
+  box-sizing: border-box;
 }
 
 .text_proj {
   color: #C05B35;
-  font-size: 1.5rem;
-  padding: 0.5rem 1rem;
+  font-size: 1.3rem;
 }
