@@ -1,68 +1,80 @@
-.sup_proj{
-    height: 100px;
-    width: 100%;
-    padding: 2.5rem 2.5rem;
-    display: flex;
-    gap: 4.2rem;
+.princ_proj {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.novo_proj{
-    height: 4rem;
-    width: 14rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    border: solid 2px #C05B35;
+.div_sup {
+  width: 100%;
+  display: flex;
+  padding: 2.5rem 2.5rem;
+  gap: 2rem;
 }
 
-.bot_novo_proj{
-    background: transparent;  /* Remove o fundo branco */
-  border: none;             /* Remove a borda padrão do botão */
-  outline: none;            /* Remove o contorno de seleção */
-  color: #C05B35;             /* Deixa o texto branco para contrastar com o fundo */
-  font-size: 1.5rem;          /* Tamanho da fonte */
-  cursor: pointer;          /* Transforma o ponteiro do mouse na mãozinha */
-  padding: 0.5rem 1rem;      /* Área de clique agradável */
-  font-family: inherit; 
+.div_bot_novo {
+  height: 4rem;
+  width: 14rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  border: solid 2px #C05B35;
 }
 
-button:hover {
-  opacity: 0.7;             /* Dá um leve brilho/transparência indicando que é clicável */
-}
-
-
-.inf_proj{
-    height: 30rem;
-    width: auto;
-    display: flex;
-    justify-content: center;
-    padding: 1rem;
-}
-
-.proj{
-    border-radius: 10px;
-    border: solid 2px #C05B35;
-    width: 75%;
-    height: 60px;
-}
-
-.div_pesq_proj{
-    height: 4rem;
-    width: 30rem;
-    display: flex;
-    
-    align-items: center;
-    border-radius: 10px;
-    border: solid 2px #C05B35;
-}
-
-.pesq_proj{
-    background: transparent;  /* Remove o fundo branco */
-  border: none;             /* Remove a borda padrão do botão */
-  outline: none;            /* Remove o contorno de seleção */
-  font-size: 1.5rem;          /* Tamanho da fonte */  
-  cursor: pointer;          /* Transforma o ponteiro do mouse na mãozinha */
-  padding: 0.5rem 1rem;      /* Área de clique agradável */
+.bot_novo {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #C05B35;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
   font-family: inherit;
+  width: 100%;
+  height: 100%;
+}
+
+.div_pesq {
+  height: 4rem;
+  width: 30rem;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  border: solid 2px #C05B35;
+}
+
+.input_pesq {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1.5rem;
+  cursor: text;
+  padding: 0.5rem 1rem;
+  font-family: inherit;
+  width: 100%;
+  color: #333;
+}
+
+.div_lista_proj {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.div_proj {
+  height: 4rem;
+  width: 95%;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  border: solid 2px #C05B35;
+  cursor: pointer;
+}
+
+.text_proj {
+  color: #C05B35;
+  font-size: 1.5rem;
+  padding: 0.5rem 1rem;
 }

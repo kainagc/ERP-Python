@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
-import './Novo_Projeto.css'
+import { useNavigate, useParams } from 'react-router-dom'
+import './Editar_Projeto.css'
 
 const AMBIENTES = [
   'Sala', 'Cozinha', 'Quarto', 'Banheiro', 'Closet', 'Copa',
@@ -15,10 +15,10 @@ const TIPOS_VISITA = [
 const TIPOS_MATERIAL = ['MDF', 'Dobradiça', 'Corrediça', 'Vidraçaria']
 const COMPRIMENTOS_CORREDICA = ['250', '300', '350', '400', '450', '500', '550']
 
-export function Novo_Projeto() {
+export function Editar_Projeto() {
   const navigate = useNavigate()
+  const { id } = useParams()
 
-  // Refs para acionar seleção de arquivos
   const inputAmbienteRef = useRef(null)
   const input3dRef = useRef(null)
 
@@ -43,28 +43,24 @@ export function Novo_Projeto() {
   const [mostrarFormNovaVersao, setMostrarFormNovaVersao] = useState(false)
   const [nomeNovaVersao, setNomeNovaVersao] = useState('')
 
-  // Materiais (Modal e formulário)
+  // Materiais (Modal)
   const [mostrarModalMaterial, setMostrarModalMaterial] = useState(false)
   const [tipoMaterial, setTipoMaterial] = useState('')
   const [quantidadeMaterial, setQuantidadeMaterial] = useState(1)
   const [marcaMaterial, setMarcaMaterial] = useState('')
   const [corMaterial, setCorMaterial] = useState('')
-  
-  // Corrediça
   const [tipoCorredica, setTipoCorredica] = useState('Telescópica')
   const [comprimentoCorredica, setComprimentoCorredica] = useState('450')
-
-  // Vidraçaria
   const [tipoVidro, setTipoVidro] = useState('Normal')
   const [larguraVidro, setLarguraVidro] = useState('')
   const [alturaVidro, setAlturaVidro] = useState('')
   const [espessuraVidro, setEspessuraVidro] = useState('')
   const [descricaoVidro, setDescricaoVidro] = useState('')
 
-  // Zoom / Visualização ampliada de imagem
   const [imagemAmpliada, setImagemAmpliada] = useState(null)
   const [salvando, setSalvando] = useState(false)
 
+  // Carregar lista de clientes para a busca
   useEffect(() => {
     async function buscarClientes() {
       try {
@@ -78,6 +74,34 @@ export function Novo_Projeto() {
     }
     buscarClientes()
   }, [])
+
+  // Carregar dados existentes do projeto
+  useEffect(() => {
+    async function carregarProjeto() {
+      try {
+        const resposta = await fetch(`http://127.0.0.1:8000/projetos/${id}`)
+        if (!resposta.ok) return
+        const proj = await resposta.json()
+
+        setAmbiente(proj.ambiente || '')
+        setObservacoes(proj.observacoes || '')
+        if (proj.cliente) {
+          setClienteSelecionado(proj.cliente)
+          setBuscaCliente(proj.cliente.nome)
+        }
+        if (proj.eventos) {
+          setEventos(proj.eventos)
+        }
+        if (proj.versoes && proj.versoes.length > 0) {
+          setVersoes(proj.versoes)
+          setVersaoSelecionadaId(proj.versoes[0].id)
+        }
+      } catch (err) {
+        console.error('Erro ao carregar projeto:', err)
+      }
+    }
+    if (id) carregarProjeto()
+  }, [id])
 
   const sugestoes = clientes.filter(c =>
     c.nome.toLowerCase().includes(buscaCliente.toLowerCase())
@@ -128,8 +152,8 @@ export function Novo_Projeto() {
     fecharModalEvento()
   }
 
-  function handleRemoverEvento(id) {
-    setEventos(prev => prev.filter(ev => ev.id !== id))
+  function handleRemoverEvento(eventoId) {
+    setEventos(prev => prev.filter(ev => ev.id !== eventoId))
   }
 
   // --- Funções Versões ---
@@ -146,8 +170,8 @@ export function Novo_Projeto() {
     setNomeNovaVersao('')
   }
 
-  function selecionarVersao(id) {
-    setVersaoSelecionadaId(id)
+  function selecionarVersao(versaoId) {
+    setVersaoSelecionadaId(versaoId)
     fecharModalVersao()
   }
 
@@ -172,7 +196,7 @@ export function Novo_Projeto() {
   // --- Funções Materiais ---
   function abrirModalMaterial() {
     if (!versaoSelecionadaId) {
-      alert('Crie ou selecione uma versão antes de adicionar materiais.')
+      alert('Selecione uma versão antes de adicionar materiais.')
       return
     }
     setMostrarModalMaterial(true)
@@ -322,14 +346,14 @@ export function Novo_Projeto() {
     )
   }
 
-  // --- Função Salvar Tudo no Banco de Dados ---
-  async function handleSalvarProjeto() {
+  // --- Salvar Alterações ---
+  async function handleSalvarAlteracoes() {
     if (!clienteSelecionado) {
-      alert('Selecione um cliente antes de salvar.')
+      alert('Selecione um cliente.')
       return
     }
     if (!ambiente) {
-      alert('Selecione o ambiente do projeto.')
+      alert('Selecione o ambiente.')
       return
     }
 
@@ -344,6 +368,7 @@ export function Novo_Projeto() {
         tipo: ev.tipo
       })),
       versoes: versoes.map(v => ({
+        id: v.id,
         nome: v.nome,
         materiais: (v.materiais || []).map(m => ({
           tipo: m.tipo,
@@ -363,57 +388,21 @@ export function Novo_Projeto() {
     }
 
     try {
-      // 1. Cria Projeto, Eventos, Versões e Materiais no FastAPI
-      const resposta = await fetch('http://127.0.0.1:8000/projetos/', {
-        method: 'POST',
+      const resposta = await fetch(`http://127.0.0.1:8000/projetos/${id}`, {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       })
 
       if (!resposta.ok) {
-        throw new Error('Erro ao salvar os dados do projeto.')
+        throw new Error('Erro ao salvar as alterações do projeto.')
       }
 
-      const resultado = await resposta.json()
-      const versoesCriadas = resultado.versoes_criadas || []
-
-      // 2. Envia as fotos em lote de cada versão cadastrada
-      for (let i = 0; i < versoes.length; i++) {
-        const versaoLocal = versoes[i]
-        const versaoDb = versoesCriadas[i]
-
-        if (versaoDb) {
-          // Upload imagens do ambiente
-          for (const img of (versaoLocal.imagensAmbiente || [])) {
-            if (img.file) {
-              const formData = new FormData()
-              formData.append('file', img.file)
-              await fetch(`http://127.0.0.1:8000/versoes/${versaoDb.id}/upload-imagem/?tipo=ambiente`, {
-                method: 'POST',
-                body: formData
-              })
-            }
-          }
-
-          // Upload imagens 3D
-          for (const img of (versaoLocal.imagens3D || [])) {
-            if (img.file) {
-              const formData = new FormData()
-              formData.append('file', img.file)
-              await fetch(`http://127.0.0.1:8000/versoes/${versaoDb.id}/upload-imagem/?tipo=3d`, {
-                method: 'POST',
-                body: formData
-              })
-            }
-          }
-        }
-      }
-
-      alert('Projeto e imagens salvos com sucesso!')
+      alert('Projeto atualizado com sucesso!')
       navigate('/projetos')
     } catch (err) {
       console.error(err)
-      alert('Erro ao salvar projeto no servidor.')
+      alert('Erro de conexão ao salvar alterações.')
     } finally {
       setSalvando(false)
     }
@@ -421,7 +410,6 @@ export function Novo_Projeto() {
 
   return (
     <div>
-      {/* Inputs de arquivo ocultos */}
       <input
         type="file"
         ref={inputAmbienteRef}
@@ -439,7 +427,7 @@ export function Novo_Projeto() {
         onChange={(e) => handleUploadImagem(e, '3d')}
       />
 
-      <div className="princ_novo_proj">
+      <div className="princ_edit_proj">
         <div className='div_sup'>
           <div className='div_bot_volt'>
             <button className='bot_voltar' onClick={() => navigate('/projetos')}>Voltar</button>
@@ -447,7 +435,6 @@ export function Novo_Projeto() {
         </div>
         <div>
           <div className='div_campos'>
-
             <div className='ambiente'>
               <label htmlFor="camp_ambiente">Ambiente</label>
             </div>
@@ -513,13 +500,12 @@ export function Novo_Projeto() {
             </div>
           </div>
 
-          {/* Seção Agenda */}
+          {/* Agenda */}
           <div className='sup_div_agenda'>
             <div className='agenda'>
               <label>Agenda</label>
             </div>
             <div className='div_agenda'>
-
               {eventos.length === 0 && (
                 <p className='texto_sem_eventos'>Nenhum evento agendado ainda.</p>
               )}
@@ -550,7 +536,7 @@ export function Novo_Projeto() {
             </div>
           </div>
 
-          {/* Seção Versões e Detalhes */}
+          {/* Versões e Detalhes */}
           <div className='sup_div_versao'>
             <div className='div_bot_versao'>
               <input
@@ -673,17 +659,17 @@ export function Novo_Projeto() {
             <div className='div_bot_salvar'>
               <button 
                 className='bot_salvar' 
-                onClick={handleSalvarProjeto}
+                onClick={handleSalvarAlteracoes}
                 disabled={salvando}
               >
-                {salvando ? 'Salvando...' : 'Salvar'}
+                {salvando ? 'Salvando...' : 'Salvar Alterações'}
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Modal Visualização Ampliada da Imagem */}
+      {/* Lightbox */}
       {imagemAmpliada && (
         <div className='overlay_imagem_ampliada' onClick={() => setImagemAmpliada(null)}>
           <button className='bot_fechar_lightbox' onClick={() => setImagemAmpliada(null)}>
@@ -698,7 +684,7 @@ export function Novo_Projeto() {
         </div>
       )}
 
-      {/* Modal Evento */}
+      {/* Modais de Evento, Versões e Materiais */}
       {mostrarModalEvento && (
         <div className='overlay_modal' onClick={fecharModalEvento}>
           <div className='modal_evento' onClick={(e) => e.stopPropagation()}>
@@ -734,18 +720,13 @@ export function Novo_Projeto() {
             </div>
 
             <div className='form_evento_botoes'>
-              <button className='bot_confirmar_evento' onClick={handleAdicionarEvento}>
-                Confirmar
-              </button>
-              <button className='bot_cancelar_evento' onClick={fecharModalEvento}>
-                Cancelar
-              </button>
+              <button className='bot_confirmar_evento' onClick={handleAdicionarEvento}>Confirmar</button>
+              <button className='bot_cancelar_evento' onClick={fecharModalEvento}>Cancelar</button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Modal Versões */}
       {mostrarModalVersao && (
         <div className='overlay_modal' onClick={fecharModalVersao}>
           <div className='modal_versao' onClick={(e) => e.stopPropagation()}>
@@ -793,15 +774,12 @@ export function Novo_Projeto() {
             <div className='form_evento_botoes'>
               {mostrarFormNovaVersao ? (
                 <>
-                  <button className='bot_confirmar_evento' onClick={handleCriarVersao}>
-                    Confirmar
-                  </button>
+                  <button className='bot_confirmar_evento' onClick={handleCriarVersao}>Confirmar</button>
                   <button
                     className='bot_cancelar_evento'
                     onClick={() => {
-                      if (versoes.length === 0) {
-                        fecharModalVersao()
-                      } else {
+                      if (versoes.length === 0) fecharModalVersao()
+                      else {
                         setMostrarFormNovaVersao(false)
                         setNomeNovaVersao('')
                       }
@@ -811,16 +789,13 @@ export function Novo_Projeto() {
                   </button>
                 </>
               ) : (
-                <button className='bot_cancelar_evento' onClick={fecharModalVersao}>
-                  Fechar
-                </button>
+                <button className='bot_cancelar_evento' onClick={fecharModalVersao}>Fechar</button>
               )}
             </div>
           </div>
         </div>
       )}
 
-      {/* Modal Materiais */}
       {mostrarModalMaterial && (
         <div className='overlay_modal' onClick={fecharModalMaterial}>
           <div className='modal_evento modal_material' onClick={(e) => e.stopPropagation()}>
@@ -859,7 +834,6 @@ export function Novo_Projeto() {
               </div>
             </div>
 
-            {/* MDF */}
             {tipoMaterial === 'MDF' && (
               <>
                 <div className='campo_tipo_visita'>
@@ -887,7 +861,6 @@ export function Novo_Projeto() {
               </>
             )}
 
-            {/* Dobradiça */}
             {tipoMaterial === 'Dobradiça' && (
               <div className='campo_tipo_visita'>
                 <label htmlFor="mat_marca_ferragem">Marca</label>
@@ -902,7 +875,6 @@ export function Novo_Projeto() {
               </div>
             )}
 
-            {/* Corrediça */}
             {tipoMaterial === 'Corrediça' && (
               <>
                 <div className='campo_tipo_visita'>
@@ -948,7 +920,6 @@ export function Novo_Projeto() {
               </>
             )}
 
-            {/* Vidraçaria */}
             {tipoMaterial === 'Vidraçaria' && (
               <>
                 <div className='campo_tipo_visita'>
@@ -1017,12 +988,8 @@ export function Novo_Projeto() {
             )}
 
             <div className='form_evento_botoes'>
-              <button className='bot_confirmar_evento' onClick={handleAdicionarMaterial}>
-                Confirmar
-              </button>
-              <button className='bot_cancelar_evento' onClick={fecharModalMaterial}>
-                Cancelar
-              </button>
+              <button className='bot_confirmar_evento' onClick={handleAdicionarMaterial}>Confirmar</button>
+              <button className='bot_cancelar_evento' onClick={fecharModalMaterial}>Cancelar</button>
             </div>
           </div>
         </div>
@@ -1031,4 +998,4 @@ export function Novo_Projeto() {
   )
 }
 
-export default Novo_Projeto
+export default Editar_Projeto

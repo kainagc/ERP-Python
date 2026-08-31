@@ -1,4 +1,4 @@
-.princ_novo_proj {
+.princ_edit_proj {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -167,7 +167,6 @@
   justify-content: center;
 }
 
-/* Áreas de Imagens */
 .div_img_ambiente,
 .div_img_3d {
   width: 90%;
@@ -239,7 +238,6 @@
   transform: scale(1.1);
 }
 
-/* Modal Lightbox (Imagem ampliada) */
 .overlay_imagem_ampliada {
   position: fixed;
   top: 0;
@@ -294,7 +292,6 @@
   align-items: center;
 }
 
-/* Sugestões de cliente */
 .lista_sugestoes_cliente {
   position: absolute;
   top: calc(100% + 0.3rem);
@@ -332,7 +329,6 @@
   font-size: 1.1rem;
 }
 
-/* Lista e itens unificados (Agenda e Materiais) */
 .lista_itens_cadastrados {
   width: 100%;
   display: flex;
@@ -388,7 +384,6 @@
   font-family: inherit;
 }
 
-/* Modais */
 .overlay_modal {
   position: fixed;
   top: 0;
