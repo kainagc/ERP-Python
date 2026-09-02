@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+<<<<<<< Updated upstream
 import './Novo_Projeto.css'
 
 const AMBIENTES = [
@@ -11,10 +12,15 @@ const AMBIENTES = [
 const TIPOS_VISITA = [
   '1ª Visita', 'Confirmar Medidas', 'Entrega', 'Dúvidas', 'Manutenção'
 ]
+=======
+>>>>>>> Stashed changes
 
 export function Novo_Projeto() {
   const navigate = useNavigate()
+  const [clientes, setClientes] = useState([])
+  const [salvando, setSalvando] = useState(false)
 
+<<<<<<< Updated upstream
   const [ambiente, setAmbiente] = useState('')
   const [observacoes, setObservacoes] = useState('')
 
@@ -34,31 +40,33 @@ export function Novo_Projeto() {
   const [mostrarModalVersao, setMostrarModalVersao] = useState(false)
   const [mostrarFormNovaVersao, setMostrarFormNovaVersao] = useState(false)
   const [nomeNovaVersao, setNomeNovaVersao] = useState('')
+=======
+  const [clienteId, setClienteId] = useState('')
+  const [ambiente, setAmbiente] = useState('')
+  const [observacoes, setObservacoes] = useState('')
+
+  // Versões e arquivos
+  const [versoes, setVersoes] = useState([
+    { id: 1, nome: 'Versão 1', arquivoPlanner: null, nomeArquivoPlanner: '' }
+  ])
+>>>>>>> Stashed changes
 
   useEffect(() => {
-    async function buscarClientes() {
-      try {
-        const resposta = await fetch('http://127.0.0.1:8000/clientes/')
-        if (!resposta.ok) return
-        const dados = await resposta.json()
-        setClientes(dados)
-      } catch (err) {
-        console.error(err)
-      }
-    }
-    buscarClientes()
+    fetch('http://127.0.0.1:8000/clientes/')
+      .then(res => res.json())
+      .then(dados => setClientes(dados))
+      .catch(err => console.error('Erro ao buscar clientes:', err))
   }, [])
 
-  const sugestoes = clientes.filter(c =>
-    c.nome.toLowerCase().includes(buscaCliente.toLowerCase())
-  )
-
-  function selecionarCliente(cliente) {
-    setClienteSelecionado(cliente)
-    setBuscaCliente(cliente.nome)
-    setMostrarSugestoes(false)
+  function adicionarVersao() {
+    const novoNum = versoes.length + 1
+    setVersoes(prev => [
+      ...prev,
+      { id: Date.now(), nome: `Versão ${novoNum}`, arquivoPlanner: null, nomeArquivoPlanner: '' }
+    ])
   }
 
+<<<<<<< Updated upstream
   function handleBuscaChange(e) {
     setBuscaCliente(e.target.value)
     setClienteSelecionado(null)
@@ -303,10 +311,154 @@ export function Novo_Projeto() {
             <div className='div_bot_salvar'>
               <button className='bot_salvar'>Salvar</button>
             </div>
+=======
+  function handleFileChange(index, file) {
+    if (!file) return
+    setVersoes(prev => {
+      const novos = [...prev]
+      novos[index] = {
+        ...novos[index],
+        arquivoPlanner: file,
+        nomeArquivoPlanner: file.name
+      }
+      return novos
+    })
+  }
+
+  async function handleSalvar() {
+    if (!clienteId) {
+      alert('Selecione um cliente para o projeto.')
+      return
+    }
+    if (!ambiente.trim()) {
+      alert('Informe o ambiente do projeto (Ex: Cozinha, Lavanderia).')
+      return
+    }
+
+    setSalvando(true)
+
+    const payload = {
+      cliente_id: Number(clienteId),
+      ambiente: ambiente,
+      observacoes: observacoes,
+      eventos: [],
+      versoes: versoes.map(v => ({
+        nome: v.nome,
+        materiais: []
+      }))
+    }
+
+    try {
+      const res = await fetch('http://127.0.0.1:8000/projetos/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+
+      if (!res.ok) {
+        alert('Erro ao criar projeto.')
+        setSalvando(false)
+        return
+      }
+
+      const resProj = await res.json()
+      const versoesCriadas = resProj.versoes_criadas || []
+
+      // Faz upload dos arquivos .planner de cada versão
+      for (let i = 0; i < versoes.length; i++) {
+        const arq = versoes[i].arquivoPlanner
+        if (arq && versoesCriadas[i]) {
+          const vId = versoesCriadas[i].id
+          const formData = new FormData()
+          formData.append('file', arq)
+
+          await fetch(`http://127.0.0.1:8000/versoes/${vId}/upload-planner/`, {
+            method: 'POST',
+            body: formData
+          })
+        }
+      }
+
+      alert('Projeto salvo com sucesso!')
+      navigate('/projetos')
+    } catch (err) {
+      console.error(err)
+      alert('Erro de conexão ao salvar projeto.')
+    } finally {
+      setSalvando(false)
+    }
+  }
+
+  return (
+    <div style={{ padding: '2rem', maxWidth: '1100px', margin: '0 auto', fontFamily: 'sans-serif' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+        <button
+          onClick={() => navigate('/projetos')}
+          style={{ background: '#fff', border: '1px solid #ccc', padding: '0.55rem 1.2rem', borderRadius: '4px', cursor: 'pointer' }}
+        >
+          Voltar
+        </button>
+        <button
+          onClick={handleSalvar}
+          disabled={salvando}
+          style={{ background: '#C05B35', color: '#fff', border: 'none', padding: '0.55rem 1.5rem', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}
+        >
+          {salvando ? 'Salvando...' : 'Salvar Projeto'}
+        </button>
+      </div>
+
+      {/* Dados Principais */}
+      <div style={{ background: '#fff', borderRadius: '8px', border: '1px solid #E2A684', overflow: 'hidden', marginBottom: '1.5rem' }}>
+        <h3 style={{ background: '#F8ECE4', color: '#8E3E23', margin: 0, padding: '0.85rem 1.2rem', fontSize: '1.1rem' }}>
+          Informações do Projeto
+        </h3>
+        <div style={{ padding: '1.5rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.2rem' }}>
+          <div>
+            <label style={{ display: 'block', fontWeight: 'bold', color: '#8E3E23', marginBottom: '0.35rem', fontSize: '0.9rem' }}>
+              Cliente *
+            </label>
+            <select
+              value={clienteId}
+              onChange={e => setClienteId(e.target.value)}
+              style={{ width: '100%', padding: '0.6rem', border: '1px solid #ccc', borderRadius: '4px', boxSizing: 'border-box' }}
+            >
+              <option value="">Selecione o Cliente</option>
+              {clientes.map(c => (
+                <option key={c.id} value={c.id}>{c.nome}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label style={{ display: 'block', fontWeight: 'bold', color: '#8E3E23', marginBottom: '0.35rem', fontSize: '0.9rem' }}>
+              Ambiente *
+            </label>
+            <input
+              type="text"
+              value={ambiente}
+              onChange={e => setAmbiente(e.target.value)}
+              placeholder="Ex: Cozinha Planejada, Lavanderia..."
+              style={{ width: '100%', padding: '0.6rem', border: '1px solid #ccc', borderRadius: '4px', boxSizing: 'border-box' }}
+            />
+          </div>
+
+          <div style={{ gridColumn: 'span 2' }}>
+            <label style={{ display: 'block', fontWeight: 'bold', color: '#8E3E23', marginBottom: '0.35rem', fontSize: '0.9rem' }}>
+              Observações do Projeto
+            </label>
+            <textarea
+              rows="3"
+              value={observacoes}
+              onChange={e => setObservacoes(e.target.value)}
+              placeholder="Detalhes sobre instalação, prazos, fiações, pontos de hidráulica..."
+              style={{ width: '100%', padding: '0.6rem', border: '1px solid #ccc', borderRadius: '4px', boxSizing: 'border-box', outline: 'none' }}
+            />
+>>>>>>> Stashed changes
           </div>
         </div>
       </div>
 
+<<<<<<< Updated upstream
       {mostrarModalEvento && (
         <div className='overlay_modal' onClick={fecharModalEvento}>
           <div className='modal_evento' onClick={(e) => e.stopPropagation()}>
@@ -426,6 +578,44 @@ export function Novo_Projeto() {
           </div>
         </div>
       )}
+=======
+      {/* Seção de Versões e Arquivo Promob */}
+      <div style={{ background: '#fff', borderRadius: '8px', border: '1px solid #E2A684', overflow: 'hidden' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#F8ECE4', padding: '0.85rem 1.2rem' }}>
+          <h3 style={{ color: '#8E3E23', margin: 0, fontSize: '1.1rem' }}>
+            Versões e Arquivos do Promob (.planner)
+          </h3>
+          <button
+            onClick={adicionarVersao}
+            style={{ background: '#8E3E23', color: '#fff', border: 'none', padding: '0.4rem 0.8rem', borderRadius: '4px', cursor: 'pointer', fontSize: '0.85rem' }}
+          >
+            + Adicionar Versão
+          </button>
+        </div>
+
+        <div style={{ padding: '1.5rem' }}>
+          {versoes.map((v, idx) => (
+            <div key={v.id} style={{ borderBottom: idx < versoes.length - 1 ? '1px solid #eee' : 'none', paddingBottom: '1rem', marginBottom: '1rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+                <span style={{ fontWeight: 'bold', color: '#555', minWidth: '90px' }}>{v.nome}</span>
+                <label style={{ background: '#fff', border: '1px solid #C05B35', color: '#C05B35', padding: '0.45rem 1rem', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', fontSize: '0.9rem' }}>
+                  Selecionar .planner
+                  <input
+                    type="file"
+                    accept=".planner,.zip"
+                    onChange={e => handleFileChange(idx, e.target.files[0])}
+                    style={{ display: 'none' }}
+                  />
+                </label>
+                <span style={{ color: v.nomeArquivoPlanner ? '#27ae60' : '#888', fontSize: '0.9rem' }}>
+                  {v.nomeArquivoPlanner ? `✓ ${v.nomeArquivoPlanner}` : 'Nenhum arquivo anexado'}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+>>>>>>> Stashed changes
     </div>
   )
 }

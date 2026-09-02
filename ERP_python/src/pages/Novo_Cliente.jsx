@@ -1,15 +1,16 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import './Novo_Cliente.css'
 
 export function Novo_Cliente() {
   const navigate = useNavigate()
+  const [salvando, setSalvando] = useState(false)
+
   const [form, setForm] = useState({
     nome: '',
     endereco: '',
     bairro: '',
     cidade: '',
-    estado: '',
+    estado: 'PR',
     celular: '',
     cpf_cnpj: '',
     inscricao_estadual: ''
@@ -20,106 +21,182 @@ export function Novo_Cliente() {
     setForm(prev => ({ ...prev, [name]: value }))
   }
 
-  async function handleSalvar() {
+  async function handleSubmit(e) {
+    e.preventDefault()
+    if (!form.nome.trim()) {
+      alert('Preencha o nome do cliente.')
+      return
+    }
+
+    setSalvando(true)
     try {
-      const resposta = await fetch('http://127.0.0.1:8000/clientes/', {
+      const res = await fetch('http://127.0.0.1:8000/clientes/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...form,
-          inscricao_estadual: form.inscricao_estadual || null
-        })
+        body: JSON.stringify(form)
       })
 
-      if (!resposta.ok) {
-        const erro = await resposta.json()
-        alert(erro.detail || 'Erro ao salvar cliente.')
-        return
+      if (res.ok) {
+        alert('Cliente cadastrado com sucesso!')
+        navigate('/clientes')
+      } else {
+        alert('Erro ao salvar cliente.')
       }
-
-      alert('Cliente salvo com sucesso!')
-      navigate('/clientes')
     } catch (err) {
-      alert('Não foi possível conectar ao servidor. Verifique se o backend está rodando.')
       console.error(err)
+      alert('Erro de conexão ao salvar cliente.')
+    } finally {
+      setSalvando(false)
     }
   }
 
   return (
-    <div>
-      <div className="princ_novo_cli">
-        <div className='div_sup'>
-          <div className='div_bot_volt'>
-            <button className='bot_voltar' onClick={() => navigate('/clientes')}>Voltar</button>
+    <div style={{ padding: '2rem', maxWidth: '1100px', margin: '0 auto', fontFamily: 'sans-serif' }}>
+      {/* Barra de Ações Superior */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+        <button
+          onClick={() => navigate('/clientes')}
+          style={{ background: '#fff', border: '1px solid #ccc', padding: '0.55rem 1.2rem', borderRadius: '4px', cursor: 'pointer' }}
+        >
+          Voltar
+        </button>
+        <button
+          onClick={handleSubmit}
+          disabled={salvando}
+          style={{ background: '#C05B35', color: '#fff', border: 'none', padding: '0.55rem 1.5rem', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}
+        >
+          {salvando ? 'Salvando...' : 'Salvar Cliente'}
+        </button>
+      </div>
+
+      {/* Seção 1: Dados Pessoais / Comerciais */}
+      <div style={{ background: '#fff', borderRadius: '8px', border: '1px solid #E2A684', overflow: 'hidden', marginBottom: '1.5rem' }}>
+        <h3 style={{ background: '#F8ECE4', color: '#8E3E23', margin: 0, padding: '0.85rem 1.2rem', fontSize: '1.1rem' }}>
+          Identificação do Cliente
+        </h3>
+        <div style={{ padding: '1.5rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.2rem' }}>
+          <div style={{ gridColumn: 'span 2' }}>
+            <label style={{ display: 'block', fontWeight: 'bold', color: '#8E3E23', marginBottom: '0.35rem', fontSize: '0.9rem' }}>
+              Nome Completo / Razão Social *
+            </label>
+            <input
+              type="text"
+              name="nome"
+              value={form.nome}
+              onChange={handleChange}
+              placeholder="Ex: João da Silva"
+              style={{ width: '100%', padding: '0.6rem', border: '1px solid #ccc', borderRadius: '4px', boxSizing: 'border-box' }}
+              required
+            />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', fontWeight: 'bold', color: '#8E3E23', marginBottom: '0.35rem', fontSize: '0.9rem' }}>
+              Celular / WhatsApp
+            </label>
+            <input
+              type="text"
+              name="celular"
+              value={form.celular}
+              onChange={handleChange}
+              placeholder="(00) 00000-0000"
+              style={{ width: '100%', padding: '0.6rem', border: '1px solid #ccc', borderRadius: '4px', boxSizing: 'border-box' }}
+            />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', fontWeight: 'bold', color: '#8E3E23', marginBottom: '0.35rem', fontSize: '0.9rem' }}>
+              CPF / CNPJ
+            </label>
+            <input
+              type="text"
+              name="cpf_cnpj"
+              value={form.cpf_cnpj}
+              onChange={handleChange}
+              placeholder="000.000.000-00"
+              style={{ width: '100%', padding: '0.6rem', border: '1px solid #ccc', borderRadius: '4px', boxSizing: 'border-box' }}
+            />
+          </div>
+
+          <div>
+            <label style={{ display: 'block', fontWeight: 'bold', color: '#8E3E23', marginBottom: '0.35rem', fontSize: '0.9rem' }}>
+              Inscrição Estadual
+            </label>
+            <input
+              type="text"
+              name="inscricao_estadual"
+              value={form.inscricao_estadual}
+              onChange={handleChange}
+              placeholder="Isento ou Nº"
+              style={{ width: '100%', padding: '0.6rem', border: '1px solid #ccc', borderRadius: '4px', boxSizing: 'border-box' }}
+            />
           </div>
         </div>
-        <div className='div_campos'>
-          <div className='nome'>
-            <label htmlFor="camp_nome">Nome</label>
-          </div>
-          <div className='div_camp_nome'>
-            <input className='camp_nome' type="text" name="nome" id="camp_nome"
-              value={form.nome} onChange={handleChange} />
+      </div>
+
+      {/* Seção 2: Endereço */}
+      <div style={{ background: '#fff', borderRadius: '8px', border: '1px solid #E2A684', overflow: 'hidden' }}>
+        <h3 style={{ background: '#F8ECE4', color: '#8E3E23', margin: 0, padding: '0.85rem 1.2rem', fontSize: '1.1rem' }}>
+          Endereço de Atendimento / Obra
+        </h3>
+        <div style={{ padding: '1.5rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.2rem' }}>
+          <div style={{ gridColumn: 'span 2' }}>
+            <label style={{ display: 'block', fontWeight: 'bold', color: '#8E3E23', marginBottom: '0.35rem', fontSize: '0.9rem' }}>
+              Rua e Número
+            </label>
+            <input
+              type="text"
+              name="endereco"
+              value={form.endereco}
+              onChange={handleChange}
+              placeholder="Rua Exemplo, 123"
+              style={{ width: '100%', padding: '0.6rem', border: '1px solid #ccc', borderRadius: '4px', boxSizing: 'border-box' }}
+            />
           </div>
 
-          <div className='end'>
-            <label htmlFor="camp_end">Endereço</label>
-          </div>
-          <div className='div_camp_end'>
-            <input className='camp_end' type="text" name="endereco" id="camp_end"
-              value={form.endereco} onChange={handleChange} />
-          </div>
-
-          <div className='bairro'>
-            <label htmlFor="camp_bairro">Bairro</label>
-          </div>
-          <div className='div_camp_bairro'>
-            <input className='camp_bairro' type="text" name="bairro" id="camp_bairro"
-              value={form.bairro} onChange={handleChange} />
+          <div>
+            <label style={{ display: 'block', fontWeight: 'bold', color: '#8E3E23', marginBottom: '0.35rem', fontSize: '0.9rem' }}>
+              Bairro
+            </label>
+            <input
+              type="text"
+              name="bairro"
+              value={form.bairro}
+              onChange={handleChange}
+              placeholder="Bairro"
+              style={{ width: '100%', padding: '0.6rem', border: '1px solid #ccc', borderRadius: '4px', boxSizing: 'border-box' }}
+            />
           </div>
 
-          <div className='cidade'>
-            <label htmlFor="camp_cidade">Cidade</label>
-          </div>
-          <div className='div_camp_cidade'>
-            <input className='camp_cidade' type="text" name="cidade" id="camp_cidade"
-              value={form.cidade} onChange={handleChange} />
-          </div>
-
-          <div className='estado'>
-            <label htmlFor="camp_estado">Estado</label>
-          </div>
-          <div className='div_camp_estado'>
-            <input className='camp_estado' type="text" name="estado" id="camp_estado"
-              value={form.estado} onChange={handleChange} />
+          <div>
+            <label style={{ display: 'block', fontWeight: 'bold', color: '#8E3E23', marginBottom: '0.35rem', fontSize: '0.9rem' }}>
+              Cidade
+            </label>
+            <input
+              type="text"
+              name="cidade"
+              value={form.cidade}
+              onChange={handleChange}
+              placeholder="Cidade"
+              style={{ width: '100%', padding: '0.6rem', border: '1px solid #ccc', borderRadius: '4px', boxSizing: 'border-box' }}
+            />
           </div>
 
-          <div className='cel'>
-            <label htmlFor="camp_cel">Celular</label>
-          </div>
-          <div className='div_camp_cel'>
-            <input className='camp_cel' type="text" name="celular" id="camp_cel"
-              value={form.celular} onChange={handleChange} />
-          </div>
-
-          <div className='cpf'>
-            <label htmlFor="camp_cpf">CPF/CNPJ</label>
-          </div>
-          <div className='div_camp_cpf'>
-            <input className='camp_cpf' type="text" name="cpf_cnpj" id="camp_cpf"
-              value={form.cpf_cnpj} onChange={handleChange} />
-          </div>
-
-          <div className='insc'>
-            <label htmlFor="camp_insc">Inscrição Estadual</label>
-          </div>
-          <div className='div_camp_insc'>
-            <input className='camp_insc' type="text" name="inscricao_estadual" id="camp_insc"
-              value={form.inscricao_estadual} onChange={handleChange} />
-          </div>
-
-          <div className='div_bot_salvar'>
-            <button className='bot_salvar' onClick={handleSalvar}>Salvar</button>
+          <div>
+            <label style={{ display: 'block', fontWeight: 'bold', color: '#8E3E23', marginBottom: '0.35rem', fontSize: '0.9rem' }}>
+              Estado (UF)
+            </label>
+            <select
+              name="estado"
+              value={form.estado}
+              onChange={handleChange}
+              style={{ width: '100%', padding: '0.6rem', border: '1px solid #ccc', borderRadius: '4px', boxSizing: 'border-box' }}
+            >
+              <option value="PR">Paraná (PR)</option>
+              <option value="SC">Santa Catarina (SC)</option>
+              <option value="RS">Rio Grande do Sul (RS)</option>
+              <option value="SP">São Paulo (SP)</option>
+            </select>
           </div>
         </div>
       </div>

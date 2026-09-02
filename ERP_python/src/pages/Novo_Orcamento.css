@@ -1,0 +1,198 @@
+.princ_novo_orcamento {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
+.div_sup_orcamento {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 2.5rem 2.5rem;
+  box-sizing: border-box;
+}
+
+.div_bot_voltar_orc,
+.div_bot_salvar_orc {
+  height: 4rem;
+  width: 14rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  border: solid 2px #C05B35;
+}
+
+.bot_voltar_orc,
+.bot_salvar_orc {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #C05B35;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  font-family: inherit;
+  width: 100%;
+  height: 100%;
+}
+
+.div_campos_orcamento {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-direction: column;
+  padding-bottom: 4rem;
+}
+
+.label_orcamento {
+  color: #C05B35;
+  font-size: 1.4rem;
+  margin: 0;
+  font-weight: 500;
+}
+
+.div_select_orcamento {
+  height: 4rem;
+  width: 32rem;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  border: solid 2px #C05B35;
+  padding: 0 0.8rem;
+  box-sizing: border-box;
+}
+
+.select_orcamento {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  font-family: inherit;
+  width: 100%;
+  color: #333;
+}
+
+.div_container_tabela_orcamento {
+  width: 80%;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.titulo_secao_orcamento {
+  color: #C05B35;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.sem_materiais {
+  color: #888;
+  font-size: 1.2rem;
+  font-style: italic;
+}
+
+.tabela_materiais_orcamento {
+  width: 100%;
+  border: solid 2px #C05B35;
+  border-radius: 10px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.cabecalho_tabela_orcamento {
+  background-color: #f7ede8;
+  color: #C05B35;
+  font-weight: bold;
+  font-size: 1.2rem;
+  display: flex;
+  padding: 1rem 1.5rem;
+  border-bottom: 2px solid #C05B35;
+}
+
+.corpo_tabela_orcamento {
+  max-height: 22rem;
+  overflow-y: auto;
+}
+
+.linha_material_orcamento {
+  display: flex;
+  align-items: center;
+  padding: 0.8rem 1.5rem;
+  border-bottom: 1px solid #e0d0c8;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.col_item {
+  flex: 3;
+}
+
+.col_qtd {
+  flex: 1;
+  text-align: center;
+}
+
+.col_preco {
+  flex: 1.5;
+  display: flex;
+  justify-content: center;
+}
+
+.col_subtotal {
+  flex: 1.5;
+  text-align: right;
+  font-weight: 500;
+}
+
+.input_preco_unitario {
+  width: 8rem;
+  padding: 0.4rem 0.6rem;
+  border: solid 1.5px #C05B35;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  outline: none;
+  font-family: inherit;
+  text-align: right;
+}
+
+.rodape_total_orcamento {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.5rem;
+  padding: 1.2rem 1.5rem;
+  background-color: #fafafa;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.valor_total_destaque {
+  color: #C05B35;
+}
+
+.div_camp_obs_orcamento {
+  width: 100%;
+  height: 8rem;
+  border-radius: 10px;
+  border: solid 2px #C05B35;
+  padding: 0.8rem 1rem;
+  box-sizing: border-box;
+}
+
+.camp_obs_orcamento {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  font-family: inherit;
+  font-size: 1.2rem;
+  color: #333;
+}
