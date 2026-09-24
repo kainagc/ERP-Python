@@ -1,10 +1,6 @@
-<<<<<<< Updated upstream
-from sqlalchemy import Column, Integer, String
-=======
 from datetime import datetime
 from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime, Text, Date
 from sqlalchemy.orm import relationship
->>>>>>> Stashed changes
 from Database import Base
 
 
@@ -12,16 +8,6 @@ class Cliente(Base):
     __tablename__ = "clientes"
 
     id = Column(Integer, primary_key=True, index=True)
-<<<<<<< Updated upstream
-    nome = Column(String, nullable=False)
-    endereco = Column(String, nullable=False)
-    bairro = Column(String, nullable=False)
-    cidade = Column(String, nullable=False)
-    estado = Column(String, nullable=False)
-    celular = Column(String, nullable=False)
-    cpf_cnpj = Column(String, nullable=False, unique=True)
-    inscricao_estadual = Column(String, nullable=True)  # único campo opcional
-=======
     nome = Column(String(255), nullable=False)
     endereco = Column(String(255), nullable=True)
     bairro = Column(String(100), nullable=True)
@@ -135,4 +121,3 @@ class ItemOrcamento(Base):
 
     orcamento = relationship("Orcamento", back_populates="itens")
     material = relationship("MaterialProjeto")
->>>>>>> Stashed changes

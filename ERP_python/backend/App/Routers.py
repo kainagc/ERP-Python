@@ -1,6 +1,6 @@
-<<<<<<< Updated upstream
+
 from fastapi import APIRouter, Depends, HTTPException
-=======
+
 import os
 import io
 import shutil
@@ -8,12 +8,14 @@ import zipfile
 import xml.etree.ElementTree as ET
 from typing import List, Dict, Any
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, status
->>>>>>> Stashed changes
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from Database import get_db
 import Models
 import Schemas
+
+UPLOAD_DIR = "uploads"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 router = APIRouter(prefix="/clientes", tags=["Clientes"])
 
@@ -49,7 +51,6 @@ def atualizar_cliente(cliente_id: int, dados: Schemas.ClienteUpdate, db: Session
     for campo, valor in dados.dict().items():
         setattr(cliente, campo, valor)
 
-<<<<<<< Updated upstream
     try:
         db.commit()
     except IntegrityError:
@@ -57,7 +58,7 @@ def atualizar_cliente(cliente_id: int, dados: Schemas.ClienteUpdate, db: Session
         raise HTTPException(status_code=400, detail="Já existe um cliente cadastrado com esse CPF/CNPJ.")
     db.refresh(cliente)
     return cliente
-=======
+
     db.commit()
     db.refresh(cliente)
     return cliente
@@ -557,4 +558,4 @@ def remover_orcamento(orcamento_id: int, db: Session = Depends(get_db)):
     db.delete(orc)
     db.commit()
     return None
->>>>>>> Stashed changes
+

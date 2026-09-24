@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-<<<<<<< Updated upstream
+
 import './Novo_Projeto.css'
 
 const AMBIENTES = [
@@ -12,44 +12,31 @@ const AMBIENTES = [
 const TIPOS_VISITA = [
   '1ª Visita', 'Confirmar Medidas', 'Entrega', 'Dúvidas', 'Manutenção'
 ]
-=======
->>>>>>> Stashed changes
 
 export function Novo_Projeto() {
   const navigate = useNavigate()
-  const [clientes, setClientes] = useState([])
   const [salvando, setSalvando] = useState(false)
 
-<<<<<<< Updated upstream
+  // Estados principais únicos
+  const [clientes, setClientes] = useState([])
+  const [clienteId, setClienteId] = useState('')
   const [ambiente, setAmbiente] = useState('')
   const [observacoes, setObservacoes] = useState('')
 
-  const [clientes, setClientes] = useState([])
-  const [buscaCliente, setBuscaCliente] = useState('')
-  const [clienteSelecionado, setClienteSelecionado] = useState(null)
-  const [mostrarSugestoes, setMostrarSugestoes] = useState(false)
-
+  // Agenda / Eventos
   const [eventos, setEventos] = useState([])
   const [mostrarModalEvento, setMostrarModalEvento] = useState(false)
   const [dataVisita, setDataVisita] = useState('')
   const [tipoVisita, setTipoVisita] = useState('')
 
   // Versões
-  const [versoes, setVersoes] = useState([])
-  const [versaoSelecionadaId, setVersaoSelecionadaId] = useState(null)
-  const [mostrarModalVersao, setMostrarModalVersao] = useState(false)
-  const [mostrarFormNovaVersao, setMostrarFormNovaVersao] = useState(false)
-  const [nomeNovaVersao, setNomeNovaVersao] = useState('')
-=======
-  const [clienteId, setClienteId] = useState('')
-  const [ambiente, setAmbiente] = useState('')
-  const [observacoes, setObservacoes] = useState('')
-
-  // Versões e arquivos
   const [versoes, setVersoes] = useState([
     { id: 1, nome: 'Versão 1', arquivoPlanner: null, nomeArquivoPlanner: '' }
   ])
->>>>>>> Stashed changes
+  const [versaoSelecionadaId, setVersaoSelecionadaId] = useState(1)
+  const [mostrarModalVersao, setMostrarModalVersao] = useState(false)
+  const [mostrarFormNovaVersao, setMostrarFormNovaVersao] = useState(false)
+  const [nomeNovaVersao, setNomeNovaVersao] = useState('')
 
   useEffect(() => {
     fetch('http://127.0.0.1:8000/clientes/')
@@ -64,13 +51,6 @@ export function Novo_Projeto() {
       ...prev,
       { id: Date.now(), nome: `Versão ${novoNum}`, arquivoPlanner: null, nomeArquivoPlanner: '' }
     ])
-  }
-
-<<<<<<< Updated upstream
-  function handleBuscaChange(e) {
-    setBuscaCliente(e.target.value)
-    setClienteSelecionado(null)
-    setMostrarSugestoes(true)
   }
 
   function formatarDiaSemana(dataStr) {
@@ -109,11 +89,10 @@ export function Novo_Projeto() {
     setEventos(prev => prev.filter(ev => ev.id !== id))
   }
 
-  // --- Versões ---
   const versaoSelecionada = versoes.find(v => v.id === versaoSelecionadaId)
 
   function abrirModalVersao() {
-    setMostrarFormNovaVersao(versoes.length === 0) // se não tem nenhuma, já abre o form de criar
+    setMostrarFormNovaVersao(versoes.length === 0)
     setMostrarModalVersao(true)
   }
 
@@ -134,184 +113,12 @@ export function Novo_Projeto() {
       return
     }
 
-    const novaVersao = { id: Date.now(), nome: nomeNovaVersao.trim() }
+    const novaVersao = { id: Date.now(), nome: nomeNovaVersao.trim(), arquivoPlanner: null, nomeArquivoPlanner: '' }
     setVersoes(prev => [...prev, novaVersao])
     setVersaoSelecionadaId(novaVersao.id)
     fecharModalVersao()
   }
 
-  return (
-    <div>
-      <div className="princ_novo_proj">
-        <div className='div_sup'>
-          <div className='div_bot_volt'>
-            <button className='bot_voltar' onClick={() => navigate('/projetos')}>Voltar</button>
-          </div>
-        </div>
-        <div>
-          <div className='div_campos'>
-
-            <div className='ambiente'>
-              <label htmlFor="camp_ambiente">Ambiente</label>
-            </div>
-            <div className='div_camp_ambiente'>
-              <select
-                className='camp_ambiente'
-                id="camp_ambiente"
-                value={ambiente}
-                onChange={(e) => setAmbiente(e.target.value)}
-              >
-                <option value="" disabled>Selecione o ambiente</option>
-                {AMBIENTES.map(a => (
-                  <option key={a} value={a}>{a}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className='cliente'>
-              <label htmlFor="camp_cliente">Cliente</label>
-            </div>
-            <div className='div_camp_cliente' style={{ position: 'relative' }}>
-              <input
-                className='camp_cliente'
-                type="text"
-                id="camp_cliente"
-                placeholder="Digite para buscar um cliente..."
-                value={buscaCliente}
-                onChange={handleBuscaChange}
-                onFocus={() => setMostrarSugestoes(true)}
-              />
-              {mostrarSugestoes && buscaCliente && sugestoes.length > 0 && (
-                <div className='lista_sugestoes_cliente'>
-                  {sugestoes.map(c => (
-                    <div
-                      key={c.id}
-                      className='sugestao_cliente'
-                      onMouseDown={() => selecionarCliente(c)}
-                    >
-                      {c.nome}
-                    </div>
-                  ))}
-                </div>
-              )}
-              {mostrarSugestoes && buscaCliente && sugestoes.length === 0 && (
-                <div className='lista_sugestoes_cliente'>
-                  <div className='sugestao_cliente sem_resultado'>Nenhum cliente encontrado</div>
-                </div>
-              )}
-            </div>
-
-            <div className='obs'>
-              <label htmlFor="camp_obs">Observações</label>
-            </div>
-            <div className='div_camp_obs'>
-              <input
-                className='camp_obs'
-                type="text"
-                id="camp_obs"
-                placeholder="Ex: cliente só pode ser atendido às quintas-feiras"
-                value={observacoes}
-                onChange={(e) => setObservacoes(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <div className='sup_div_agenda'>
-            <div className='agenda'>
-              <label>Agenda</label>
-            </div>
-            <div className='div_agenda'>
-
-              {eventos.length === 0 && (
-                <p className='texto_sem_eventos'>Nenhum evento agendado ainda.</p>
-              )}
-
-              {eventos.length > 0 && (
-                <div className='lista_eventos'>
-                  {eventos.map(ev => (
-                    <div className='item_evento' key={ev.id}>
-                      <span className='item_evento_data'>{formatarDiaSemana(ev.data)}</span>
-                      <span className='item_evento_tipo'>{ev.tipo}</span>
-                      <button
-                        className='bot_remover_evento'
-                        onClick={() => handleRemoverEvento(ev.id)}
-                        title="Remover evento"
-                      >
-                        ✕
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              <button
-                className='bot_add_evento'
-                onClick={() => setMostrarModalEvento(true)}
-              >
-                + Adicionar Evento
-              </button>
-            </div>
-          </div>
-
-          <div className='sup_div_versao'>
-            <div className='div_bot_versao'>
-              <input
-                type="button"
-                value={versaoSelecionada ? versaoSelecionada.nome : 'Versão'}
-                className='bot_versao'
-                onClick={abrirModalVersao}
-              />
-            </div>
-            <div className='div_alt_versao'>
-              <div className='material'>
-                <label htmlFor="">Materiais</label>
-              </div>
-              <div className='div_materiais'>
-
-              </div>
-              <div className='op_materiais'>
-                <div className='div_bot_adc'>
-                  <button className='bot_adc'>Adicionar</button>
-                </div>
-                <div className='div_bot_rem'>
-                  <button className='bot_rem'>Remover</button>
-                </div>
-              </div>
-              <div className='img_ambiente'>
-                <label htmlFor="">Imagems do Ambiente</label>
-              </div>
-              <div className='div_img_ambiente'>
-
-              </div>
-              <div className='op_img_ambiente'>
-                <div className='div_bot_adc'>
-                  <button className='bot_adc'>Adicionar</button>
-                </div>
-                <div className='div_bot_rem'>
-                  <button className='bot_rem'>Remover</button>
-                </div>
-              </div>
-              <div className='img_3d'>
-                <label htmlFor="">Imagens 3D</label>
-              </div>
-              <div className='div_img_3d'>
-
-              </div>
-              <div className='op_img_3d'>
-                <div className='div_bot_adc'>
-                  <button className='bot_adc'>Adicionar</button>
-                </div>
-                <div className='div_bot_rem'>
-                  <button className='bot_rem'>Remover</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className='div_sup_salvar'>
-            <div className='div_bot_salvar'>
-              <button className='bot_salvar'>Salvar</button>
-            </div>
-=======
   function handleFileChange(index, file) {
     if (!file) return
     setVersoes(prev => {
@@ -341,7 +148,7 @@ export function Novo_Projeto() {
       cliente_id: Number(clienteId),
       ambiente: ambiente,
       observacoes: observacoes,
-      eventos: [],
+      eventos: eventos.map(ev => ({ data: ev.data, tipo: ev.tipo })),
       versoes: versoes.map(v => ({
         nome: v.nome,
         materiais: []
@@ -364,7 +171,6 @@ export function Novo_Projeto() {
       const resProj = await res.json()
       const versoesCriadas = resProj.versoes_criadas || []
 
-      // Faz upload dos arquivos .planner de cada versão
       for (let i = 0; i < versoes.length; i++) {
         const arq = versoes[i].arquivoPlanner
         if (arq && versoesCriadas[i]) {
@@ -407,7 +213,7 @@ export function Novo_Projeto() {
         </button>
       </div>
 
-      {/* Dados Principais */}
+      {/* Informações do Projeto */}
       <div style={{ background: '#fff', borderRadius: '8px', border: '1px solid #E2A684', overflow: 'hidden', marginBottom: '1.5rem' }}>
         <h3 style={{ background: '#F8ECE4', color: '#8E3E23', margin: 0, padding: '0.85rem 1.2rem', fontSize: '1.1rem' }}>
           Informações do Projeto
@@ -433,13 +239,16 @@ export function Novo_Projeto() {
             <label style={{ display: 'block', fontWeight: 'bold', color: '#8E3E23', marginBottom: '0.35rem', fontSize: '0.9rem' }}>
               Ambiente *
             </label>
-            <input
-              type="text"
+            <select
               value={ambiente}
               onChange={e => setAmbiente(e.target.value)}
-              placeholder="Ex: Cozinha Planejada, Lavanderia..."
               style={{ width: '100%', padding: '0.6rem', border: '1px solid #ccc', borderRadius: '4px', boxSizing: 'border-box' }}
-            />
+            >
+              <option value="" disabled>Selecione o ambiente</option>
+              {AMBIENTES.map(a => (
+                <option key={a} value={a}>{a}</option>
+              ))}
+            </select>
           </div>
 
           <div style={{ gridColumn: 'span 2' }}>
@@ -453,132 +262,41 @@ export function Novo_Projeto() {
               placeholder="Detalhes sobre instalação, prazos, fiações, pontos de hidráulica..."
               style={{ width: '100%', padding: '0.6rem', border: '1px solid #ccc', borderRadius: '4px', boxSizing: 'border-box', outline: 'none' }}
             />
->>>>>>> Stashed changes
           </div>
         </div>
       </div>
 
-<<<<<<< Updated upstream
-      {mostrarModalEvento && (
-        <div className='overlay_modal' onClick={fecharModalEvento}>
-          <div className='modal_evento' onClick={(e) => e.stopPropagation()}>
-            <h3 className='modal_evento_titulo'>Novo Evento</h3>
-
-            <div className='campo_data_visita'>
-              <label htmlFor="camp_data_visita">Data da Visita</label>
-              <input
-                className='input_data_visita'
-                type="date"
-                id="camp_data_visita"
-                value={dataVisita}
-                onChange={(e) => setDataVisita(e.target.value)}
-              />
-              {dataVisita && (
-                <span className='texto_dia_semana'>{formatarDiaSemana(dataVisita)}</span>
-              )}
-            </div>
-
-            <div className='campo_tipo_visita'>
-              <label htmlFor="camp_tipo_visita">Tipo de Visita</label>
-              <select
-                className='select_tipo_visita'
-                id="camp_tipo_visita"
-                value={tipoVisita}
-                onChange={(e) => setTipoVisita(e.target.value)}
-              >
-                <option value="" disabled>Selecione</option>
-                {TIPOS_VISITA.map(t => (
-                  <option key={t} value={t}>{t}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className='form_evento_botoes'>
-              <button className='bot_confirmar_evento' onClick={handleAdicionarEvento}>
-                Confirmar
-              </button>
-              <button className='bot_cancelar_evento' onClick={fecharModalEvento}>
-                Cancelar
-              </button>
-            </div>
-          </div>
+      {/* Seção de Agenda */}
+      <div style={{ background: '#fff', borderRadius: '8px', border: '1px solid #E2A684', overflow: 'hidden', marginBottom: '1.5rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#F8ECE4', padding: '0.85rem 1.2rem' }}>
+          <h3 style={{ color: '#8E3E23', margin: 0, fontSize: '1.1rem' }}>Agenda de Visitas / Eventos</h3>
+          <button
+            onClick={() => setMostrarModalEvento(true)}
+            style={{ background: '#8E3E23', color: '#fff', border: 'none', padding: '0.4rem 0.8rem', borderRadius: '4px', cursor: 'pointer', fontSize: '0.85rem' }}
+          >
+            + Adicionar Evento
+          </button>
         </div>
-      )}
-
-      {mostrarModalVersao && (
-        <div className='overlay_modal' onClick={fecharModalVersao}>
-          <div className='modal_versao' onClick={(e) => e.stopPropagation()}>
-            <h3 className='modal_evento_titulo'>Versões</h3>
-
-            {!mostrarFormNovaVersao && (
-              <>
-                {versoes.length > 0 && (
-                  <div className='lista_versoes'>
-                    {versoes.map(v => (
-                      <button
-                        key={v.id}
-                        className={`item_versao ${v.id === versaoSelecionadaId ? 'item_versao_ativa' : ''}`}
-                        onClick={() => selecionarVersao(v.id)}
-                      >
-                        {v.nome}
-                      </button>
-                    ))}
-                  </div>
-                )}
-
-                <button
-                  className='bot_add_evento'
-                  onClick={() => setMostrarFormNovaVersao(true)}
-                >
-                  + Criar Nova Versão
-                </button>
-              </>
-            )}
-
-            {mostrarFormNovaVersao && (
-              <div className='campo_tipo_visita'>
-                <label htmlFor="camp_nome_versao">Nome da Versão</label>
-                <input
-                  className='input_data_visita'
-                  type="text"
-                  id="camp_nome_versao"
-                  placeholder="Ex: Versão 1"
-                  value={nomeNovaVersao}
-                  onChange={(e) => setNomeNovaVersao(e.target.value)}
-                />
+        <div style={{ padding: '1.5rem' }}>
+          {eventos.length === 0 && (
+            <p style={{ color: '#888', fontStyle: 'italic', margin: 0 }}>Nenhum evento agendado ainda.</p>
+          )}
+          {eventos.map(ev => (
+            <div key={ev.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.5rem 0', borderBottom: '1px solid #eee' }}>
+              <div>
+                <strong>{formatarDiaSemana(ev.data)}</strong> — <span style={{ color: '#666' }}>{ev.tipo}</span>
               </div>
-            )}
-
-            <div className='form_evento_botoes'>
-              {mostrarFormNovaVersao ? (
-                <>
-                  <button className='bot_confirmar_evento' onClick={handleCriarVersao}>
-                    Confirmar
-                  </button>
-                  <button
-                    className='bot_cancelar_evento'
-                    onClick={() => {
-                      if (versoes.length === 0) {
-                        fecharModalVersao()
-                      } else {
-                        setMostrarFormNovaVersao(false)
-                        setNomeNovaVersao('')
-                      }
-                    }}
-                  >
-                    Cancelar
-                  </button>
-                </>
-              ) : (
-                <button className='bot_cancelar_evento' onClick={fecharModalVersao}>
-                  Fechar
-                </button>
-              )}
+              <button
+                onClick={() => handleRemoverEvento(ev.id)}
+                style={{ background: 'transparent', border: '1px solid #e74c3c', color: '#e74c3c', borderRadius: '4px', padding: '0.2rem 0.5rem', cursor: 'pointer', fontSize: '0.8rem' }}
+              >
+                Remover
+              </button>
             </div>
-          </div>
+          ))}
         </div>
-      )}
-=======
+      </div>
+
       {/* Seção de Versões e Arquivo Promob */}
       <div style={{ background: '#fff', borderRadius: '8px', border: '1px solid #E2A684', overflow: 'hidden' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#F8ECE4', padding: '0.85rem 1.2rem' }}>
@@ -615,7 +333,42 @@ export function Novo_Projeto() {
           ))}
         </div>
       </div>
->>>>>>> Stashed changes
+
+      {/* Modal de Eventos */}
+      {mostrarModalEvento && (
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
+          <div style={{ background: '#fff', padding: '2rem', borderRadius: '8px', width: '100%', maxWidth: '400px', border: '1px solid #E2A684' }}>
+            <h3 style={{ color: '#8E3E23', marginTop: 0 }}>Novo Evento</h3>
+            <div style={{ marginBottom: '1rem' }}>
+              <label style={{ display: 'block', fontWeight: 'bold', color: '#8E3E23', marginBottom: '0.3rem' }}>Data da Visita</label>
+              <input
+                type="date"
+                value={dataVisita}
+                onChange={e => setDataVisita(e.target.value)}
+                style={{ width: '100%', padding: '0.5rem', border: '1px solid #ccc', borderRadius: '4px', boxSizing: 'border-box' }}
+              />
+              {dataVisita && <small style={{ display: 'block', marginTop: '0.3rem', color: '#666' }}>{formatarDiaSemana(dataVisita)}</small>}
+            </div>
+            <div style={{ marginBottom: '1.5rem' }}>
+              <label style={{ display: 'block', fontWeight: 'bold', color: '#8E3E23', marginBottom: '0.3rem' }}>Tipo de Visita</label>
+              <select
+                value={tipoVisita}
+                onChange={e => setTipoVisita(e.target.value)}
+                style={{ width: '100%', padding: '0.5rem', border: '1px solid #ccc', borderRadius: '4px' }}
+              >
+                <option value="" disabled>Selecione</option>
+                {TIPOS_VISITA.map(t => (
+                  <option key={t} value={t}>{t}</option>
+                ))}
+              </select>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.8rem' }}>
+              <button onClick={fecharModalEvento} style={{ background: '#fff', border: '1px solid #ccc', padding: '0.5rem 1rem', borderRadius: '4px', cursor: 'pointer' }}>Cancelar</button>
+              <button onClick={handleAdicionarEvento} style={{ background: '#C05B35', color: '#fff', border: 'none', padding: '0.5rem 1.2rem', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}>Confirmar</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

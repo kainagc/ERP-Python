@@ -1,19 +1,9 @@
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './Novo_Projeto.css'
 
 export function Projetos() {
   const navigate = useNavigate()
-<<<<<<< Updated upstream
-
-  return (
-    <div>
-      <div className="sup_proj">
-        <div className="novo_proj">
-          <button className="bot_novo_proj" onClick={() => navigate('/projetos/novo')}>Novo Projeto</button>
-        </div>
-        <div className="div_pesq_proj">
-          <input type="text" className="pesq_proj" placeholder="Pesquisar Projeto" />
-=======
   const [projetos, setProjetos] = useState([])
   const [carregando, setCarregando] = useState(true)
   const [busca, setBusca] = useState('')
@@ -70,7 +60,6 @@ export function Projetos() {
           <p style={{ color: '#666', margin: '0.2rem 0 0 0', fontSize: '0.9rem' }}>
             Gerencie e acompanhe os ambientes e arquivos técnicos
           </p>
->>>>>>> Stashed changes
         </div>
         <button
           onClick={() => navigate('/novo_projeto')}
@@ -87,13 +76,6 @@ export function Projetos() {
           + Novo Projeto
         </button>
       </div>
-<<<<<<< Updated upstream
-      <br />
-      <br />
-      <div className="inf_proj">
-        <div className="proj"></div>
-      </div>
-=======
 
       {/* Input de Busca */}
       <div style={{ marginBottom: '1rem' }}>
@@ -113,7 +95,7 @@ export function Projetos() {
         />
       </div>
 
-      {/* Tabela Idêntica à de Orçamentos */}
+      {/* Tabela de Projetos */}
       {carregando ? (
         <p style={{ color: '#666' }}>Carregando projetos...</p>
       ) : projetosFiltrados.length === 0 ? (
@@ -166,7 +148,6 @@ export function Projetos() {
           </table>
         </div>
       )}
->>>>>>> Stashed changes
     </div>
   )
 }

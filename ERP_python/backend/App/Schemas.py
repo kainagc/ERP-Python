@@ -1,11 +1,13 @@
 from pydantic import BaseModel
 from typing import Optional
 
-<<<<<<< Updated upstream
-=======
+from datetime import date, datetime
+from typing import Optional, List
+from pydantic import BaseModel
+
 
 # --- Clientes ---
->>>>>>> Stashed changes
+
 class ClienteBase(BaseModel):
     nome: str
     endereco: str
@@ -20,19 +22,18 @@ class ClienteBase(BaseModel):
 class ClienteCreate(ClienteBase):
     pass
 
-<<<<<<< Updated upstream
+
 class ClienteUpdate(ClienteBase):
     pass
-=======
->>>>>>> Stashed changes
+
+
 
 class ClienteResponse(ClienteBase):
     id: int
 
     class Config:
-<<<<<<< Updated upstream
+
         from_attributes = True
-=======
         from_attributes = True
 
 
@@ -89,4 +90,4 @@ class OrcamentoCreate(BaseModel):
     valor_total: float
     observacoes: Optional[str] = None
     itens: List[ItemOrcamentoCreate] = []
->>>>>>> Stashed changes
+
